@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/sharedFragment"
+        android:name="com.example.appgym.fragments.SharedFragment"
+        android:label="@string/title_shared"
+        tools:layout="@layout/fragment_shared"/>
+    <fragment
+        android:id="@+id/routineFragment"
+        android:name="com.example.appgym.fragments.RoutineFragment"
+        android:label="@string/title_routine"
+        tools:layout="@layout/fragment_routine"/>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.appgym.fragments.MainFragment"
+        android:label="@string/title_main"
+        tools:layout="@layout/fragment_main"/>
+    <fragment
+        android:id="@+id/webContentFragment"
+        android:name="com.example.appgym.fragments.WebContentFragment"
+        android:label="@string/title_web_content"
+        tools:layout="@layout/fragment_web_content"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.appgym.fragments.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile"/>
+
+</navigation>

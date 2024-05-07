@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/sharedFragment"
-        android:name="com.example.appgym.fragments.SharedFragment"
+        android:name="com.example.appgym.control.fragments.SharedFragment"
         android:label="@string/title_shared"
         tools:layout="@layout/fragment_shared"/>
     <fragment
         android:id="@+id/routineFragment"
-        android:name="com.example.appgym.fragments.RoutineFragment"
+        android:name="com.example.appgym.control.fragments.RoutineFragment"
         android:label="@string/title_routine"
         tools:layout="@layout/fragment_routine"/>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.appgym.fragments.MainFragment"
+        android:name="com.example.appgym.control.fragments.MainFragment"
         android:label="@string/title_main"
         tools:layout="@layout/fragment_main"/>
     <fragment
         android:id="@+id/webContentFragment"
-        android:name="com.example.appgym.fragments.WebContentFragment"
+        android:name="com.example.appgym.control.fragments.WebContentFragment"
         android:label="@string/title_web_content"
         tools:layout="@layout/fragment_web_content"/>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.appgym.fragments.ProfileFragment"
+        android:name="com.example.appgym.control.fragments.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile"/>
 

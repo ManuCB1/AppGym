@@ -1,4 +1,4 @@
-package com.example.appgym.fragments;
+package com.example.appgym.control.fragments;
 
 import android.os.Bundle;
 

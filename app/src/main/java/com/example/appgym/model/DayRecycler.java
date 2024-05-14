@@ -2,15 +2,15 @@ package com.example.appgym.model;
 
 import java.util.List;
 
-public class Datos {
+public class DayRecycler {
 
     private String title;
-    private List<String> datos;
+    private List<Rutina> ejercicios;
     private boolean expandable;
 
-    public Datos(String title, List<String> datos) {
+    public DayRecycler(String title, List<Rutina> ejercicios) {
         this.title = title;
-        this.datos = datos;
+        this.ejercicios = ejercicios;
         this.expandable = false;
     }
 
@@ -22,12 +22,12 @@ public class Datos {
         this.title = title;
     }
 
-    public List<String> getDatos() {
-        return datos;
+    public List<Rutina> getEjercicios() {
+        return ejercicios;
     }
 
-    public void setDatos(List<String> datos) {
-        this.datos = datos;
+    public void setEjercicios(List<Rutina> ejercicios) {
+        this.ejercicios = ejercicios;
     }
 
     public boolean isExpandable() {

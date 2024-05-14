@@ -1,4 +1,4 @@
-package com.example.appgym.control.activities;
+package com.example.appgym.control;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

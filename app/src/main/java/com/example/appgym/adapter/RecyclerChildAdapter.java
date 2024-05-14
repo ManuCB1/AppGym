@@ -1,5 +1,6 @@
-package com.example.appgym.model.recyclerAdapter;
+package com.example.appgym.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appgym.R;
-
-import org.w3c.dom.Text;
+import com.example.appgym.model.Rutina;
 
 import java.util.List;
 
 public class RecyclerChildAdapter extends RecyclerView.Adapter<RecyclerChildAdapter.RecyclerChildHolder> {
 
-    private List<String> mData;
+    private List<Rutina> mData;
 
-    public RecyclerChildAdapter(List<String> mData) {
+    public RecyclerChildAdapter(List<Rutina> mData) {
         this.mData = mData;
     }
 
@@ -31,7 +31,7 @@ public class RecyclerChildAdapter extends RecyclerView.Adapter<RecyclerChildAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerChildHolder holder, int position) {
-        holder.titleText.setText(mData.get(position));
+        holder.titleText.setText(mData.get(position).getNombre());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.appgym.model.recyclerAdapter;
+package com.example.appgym.adapter;
 
 import android.util.Log;
 import android.view.ContextMenu;
@@ -14,15 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appgym.R;
-import com.example.appgym.model.Datos;
+import com.example.appgym.model.Rutina;
+import com.example.appgym.model.DayRecycler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
+public class RecyclerRoutineAdapter extends RecyclerView.Adapter<RecyclerRoutineAdapter.ViewHolder> {
 
-    private List<Datos> mData;
-    private List<String> datosDeDatos = new ArrayList<>();
+    private List<DayRecycler> mData;
+    private List<Rutina> ejercicios = new ArrayList<>();
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private int position;
@@ -35,7 +36,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         this.position = position;
     }
 
-    public MyRecyclerViewAdapter(List<Datos> data) {
+    public RecyclerRoutineAdapter(List<DayRecycler> data) {
         this.mData = data;
     }
 
@@ -49,7 +50,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Datos datos = mData.get(position);
+        DayRecycler datos = mData.get(position);
         holder.titleText.setText(datos.getTitle());
 
         if (datos.isExpandable()){
@@ -59,7 +60,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.expandableLayout.setVisibility(View.GONE);
             holder.arrowImage.setImageResource(R.drawable.arrow_down);
         }
-        RecyclerChildAdapter childAdapter = new RecyclerChildAdapter(datosDeDatos);
+        RecyclerChildAdapter childAdapter = new RecyclerChildAdapter(ejercicios);
         holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         holder.recyclerChild.setHasFixedSize(true);
         holder.recyclerChild.setAdapter(childAdapter);
@@ -67,21 +68,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.linearLayout.setOnClickListener(view -> {
             setPosition(holder.getAdapterPosition());
             datos.setExpandable(!datos.isExpandable());
-            Log.i("pulsado", ""+datos.isExpandable());
-            datosDeDatos = datos.getDatos();
+            ejercicios = datos.getEjercicios();
             notifyItemChanged(holder.getAdapterPosition());
         });
-//        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                setPosition(holder.getAdapterPosition());
-//                datos.setExpandable(!datos.isExpandable());
-//                Log.i("pulsado", ""+datos.isExpandable());
-//                datosDeDatos = datos.getDatos();
-//                notifyItemChanged(holder.getAdapterPosition());
-//                return false;
-//            }
-//        });
 
     }
     @Override

@@ -1,12 +1,16 @@
 <resources>
     <string name="app_name">AppGym</string>
-<!--    Title's Fragment-->
+    <!--    Title's Fragment-->
     <string name="title_web_content">Web Content</string>
     <string name="title_routine">Rutina</string>
     <string name="title_main">Inicio</string>
     <string name="title_profile">Perfil</string>
     <string name="title_shared">Compartir</string>
-<!--    Profile-->
+    <string name="title_info_routine">Info Rutina</string>
+    <string name="title_new_routine">Nueva Rutina</string>
+    <string name="title_info">Información</string>
+    <string name="title_remove">Eliminar</string>
+    <!--    Profile-->
     <string name="login">Log In</string>
     <string name="info">Información</string>
     <string name="email">Email</string>

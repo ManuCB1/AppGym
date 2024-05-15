@@ -1,18 +1,18 @@
 package com.example.appgym.control.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.appgym.R;
@@ -22,7 +22,9 @@ import com.example.appgym.model.DayRecycler;
 import com.example.appgym.adapter.RecyclerRoutineAdapter;
 import com.example.appgym.model.DayWeek;
 import com.example.appgym.persistencia.BaseBBDD;
-import com.example.appgym.persistencia.TaskCompleted;
+import com.example.appgym.model.TaskCompleted;
+import com.example.appgym.repository.RutinaRepositoryBO;
+import com.example.appgym.repository.RutinaRepositoryImpl;
 import com.example.appgym.utils.Constantes;
 
 import org.json.JSONArray;
@@ -32,19 +34,18 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
-public class RoutineFragment extends Fragment implements TaskCompleted {
+public class RoutineFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private List<DayRecycler> datos;
+    private List<DayRecycler> dataRecycler;
     private RecyclerRoutineAdapter adapter;
-    private BaseBBDD baseBBDD;
+    private ImageView newRoutine, infoRoutine;
+    private RutinaRepositoryImpl rutinaRepository;
 
-    List<String> days = new ArrayList<>();
-    List<Rutina> rutinasAll = new ArrayList<>();
+    private List<String> days;
 
     public RoutineFragment() {
         // Required empty public constructor
@@ -66,44 +67,47 @@ public class RoutineFragment extends Fragment implements TaskCompleted {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loadDays();
+        newRoutine = view.findViewById(R.id.newRoutine);
+        infoRoutine = view.findViewById(R.id.infoRoutine);
+        recyclerView  = view.findViewById(R.id.recycler);
+        infoRoutine.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_routineFragment_to_infoRoutineFragment);
+        });
+
         try {
-            loadRutinas(view);
+            loadRutinas();
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    private void loadRutinas(View view) throws UnsupportedEncodingException {
-        String enlace = Constantes.url_getRutinas;
-        String id_usuario = "1";
-        String datos = "id_usuario=" + URLEncoder.encode(id_usuario, "UTF-8");
-        baseBBDD = new BaseBBDD(view.getContext(), this);
-        baseBBDD.execute(enlace, datos);
+    private void loadRutinas() throws UnsupportedEncodingException {
+        rutinaRepository = new RutinaRepositoryImpl(getContext());
+        rutinaRepository.getRutinas(new TaskCompleted<List<Rutina>>() {
+            @Override
+            public void onTaskCompleted(List<Rutina> s) {
+                loadRecycler(s);
+            }
+        });
     }
 
-    private void loadDays() {
-        for (DayWeek dayWeek: DayWeek.values()){
-            days.add(dayWeek.getNombre());
-        }
-    }
-
-    private void loadRecycler(@NonNull View view) {
-        recyclerView  = view.findViewById(R.id.recycler);
+    private void loadRecycler(List<Rutina> rutinas) {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        datos = new ArrayList<>();
+        dataRecycler = new ArrayList<>();
+        days = new ArrayList<>();
 
-        for (String day: days){
+        for (DayWeek day: DayWeek.values()){
+            days.add(day.getNombre());
             List<Rutina> rutinasTemp = new ArrayList<>();
-            for (Rutina rutina: rutinasAll){
-                if ( day.equals(rutina.getDay())){
+            for (Rutina rutina: rutinas){
+                if ( day.getNombre().equals(rutina.getDay())){
                     rutinasTemp.add(rutina);
                 }
             }
-            datos.add(new DayRecycler(day, rutinasTemp));
+            dataRecycler.add(new DayRecycler(day.getNombre(), rutinasTemp));
         }
 
 //        En streams:
@@ -117,45 +121,8 @@ public class RoutineFragment extends Fragment implements TaskCompleted {
 //            });
 //        }
 
-        adapter = new RecyclerRoutineAdapter(datos);
+        adapter = new RecyclerRoutineAdapter(dataRecycler);
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onTaskCompleted(String s) {
-        if (s!=null) {
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-                String success = jsonObject.getString("success");
-                String message = jsonObject.getString("message");
-                if (success.equals("true")){
-
-                    JSONArray rutinas = jsonObject.getJSONArray("rutinas");
-                    for (int i = 0; i < rutinas.length(); i++) {
-                        List<Ejercicio> ejerciciosRutina = new ArrayList<>();
-                        JSONObject rutinaActual = rutinas.getJSONObject(i);
-//                        int id = rutinas.getInt("id");
-                        String nombre_rutina = rutinaActual.getString("nombre_rutina");
-                        String dia = rutinaActual.getString("dia");
-
-                        JSONArray ejercicios = rutinaActual.getJSONArray("ejercicios");
-                        for (int j = 0; j < ejercicios.length(); j++){
-                            JSONObject ejercicioActual = ejercicios.getJSONObject(j);
-//                            int id = ejercicioActual.getInt("id_ejercicio");
-                            String nombreEjercicio = ejercicioActual.getString("nombre_ejercicio");
-                            int series = ejercicioActual.getInt("series");
-                            String repeticiones = ejercicioActual.getString("repeticiones");
-
-                            ejerciciosRutina.add(new Ejercicio(nombreEjercicio, series, repeticiones));
-                        }
-                        rutinasAll.add(new Rutina(nombre_rutina, ejerciciosRutina, dia));
-                    }
-                }
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-                loadRecycler(getView());
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-        };
-    }
 }

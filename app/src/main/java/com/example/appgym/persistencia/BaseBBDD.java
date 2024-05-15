@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.example.appgym.model.TaskCompleted;
 import com.example.appgym.utils.Constantes;
 
 import java.io.BufferedOutputStream;

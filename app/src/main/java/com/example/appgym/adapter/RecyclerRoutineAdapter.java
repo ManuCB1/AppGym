@@ -1,6 +1,5 @@
 package com.example.appgym.adapter;
 
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +41,7 @@ public class RecyclerRoutineAdapter extends RecyclerView.Adapter<RecyclerRoutine
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_routine_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -59,6 +58,11 @@ public class RecyclerRoutineAdapter extends RecyclerView.Adapter<RecyclerRoutine
         }else {
             holder.expandableLayout.setVisibility(View.GONE);
             holder.arrowImage.setImageResource(R.drawable.arrow_down);
+        }
+        if (datos.getEjercicios().size() == 0){
+            holder.arrowImage.setVisibility(View.INVISIBLE);
+        }else {
+            holder.arrowImage.setVisibility(View.VISIBLE);
         }
         RecyclerChildAdapter childAdapter = new RecyclerChildAdapter(ejercicios);
         holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));

@@ -14,7 +14,11 @@
         android:id="@+id/routineFragment"
         android:name="com.example.appgym.control.fragments.RoutineFragment"
         android:label="@string/title_routine"
-        tools:layout="@layout/fragment_routine"/>
+        tools:layout="@layout/fragment_routine">
+        <action
+            android:id="@+id/action_routineFragment_to_infoRoutineFragment"
+            app:destination="@id/infoRoutineFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.appgym.control.fragments.MainFragment"
@@ -31,4 +35,12 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile"/>
 
+
+
+
+    <fragment
+        android:id="@+id/infoRoutineFragment"
+        android:name="com.example.appgym.control.fragments.infoRoutineFragment"
+        android:label="@string/title_info_routine"
+        tools:layout="@layout/fragment_info_routine"/>
 </navigation>

@@ -6,4 +6,5 @@ public class Constantes {
     public static final String url_baseExterna = "https://basedatosmanu.000webhostapp.com/";
     public static final String url_getRutinas = "get_rutinas";
     public static final String url_login = "login";
+    public static final String url_upload_image = "upload_image";
 }

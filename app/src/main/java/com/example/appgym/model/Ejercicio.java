@@ -7,6 +7,7 @@ public class Ejercicio {
     private String nombre;
     private int series;
     private String repeticiones;
+    private String imagen;
 
     public Ejercicio(String nombre, int series, String repeticiones) {
         this.nombre = nombre;
@@ -40,5 +41,13 @@ public class Ejercicio {
 
     public void setRepeticiones(String repeticiones) {
         this.repeticiones = repeticiones;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }

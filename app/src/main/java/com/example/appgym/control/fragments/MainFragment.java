@@ -2,6 +2,8 @@ package com.example.appgym.control.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +17,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.appgym.R;
+import com.example.appgym.utils.DateConverter;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,8 +49,6 @@ public class MainFragment extends Fragment {
         textDate = view.findViewById(R.id.textFecha);
         textDay = view.findViewById(R.id.textDay);
 
-        initDate();
-        textDate.setOnClickListener(view1 -> showCalendar(view1.getContext()));
     }
 
     @Override
@@ -77,18 +77,7 @@ public class MainFragment extends Fragment {
         dialog.show();
     }
 
-    private String getOrderDate(String fecha){
-        SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        SimpleDateFormat formatoSalida = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
-        String fechaOrdenada = "";
-        try {
-            Date fechaDate = formatoEntrada.parse(fecha);
-            fechaOrdenada = formatoSalida.format(fechaDate);
-        }catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return fechaOrdenada;
-    }
+
 
     private void initDate() {
         long timestamp = System.currentTimeMillis();
@@ -105,7 +94,7 @@ public class MainFragment extends Fragment {
         String fechaFormateada = sdf.format(date);
         String diaSemana = formatoDiaSemana.format(date).toUpperCase();
 
-        textDate.setText(getOrderDate(fechaFormateada));
+        textDate.setText(DateConverter.getOrderDate(fechaFormateada));
         textDay.setText(diaSemana);
     }
 }

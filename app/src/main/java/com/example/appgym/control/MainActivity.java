@@ -40,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            navController.navigate(id);
+            return true;
+        });
+
         // Para que aparezca seleccionado el menu que queramos al cambiar a un fragment que no está
         // definido en el menu.
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
@@ -48,10 +54,15 @@ public class MainActivity extends AppCompatActivity {
                 if (navDestination.getId() == R.id.infoRoutineFragment) {
                     bottomNavigationView.getMenu().findItem(R.id.routineFragment).setChecked(true);
                 }
+                if (navDestination.getId() == R.id.newRoutineFragment) {
+                    bottomNavigationView.getMenu().findItem(R.id.routineFragment).setChecked(true);
+                }
+                if (navDestination.getId() == R.id.detailFragment) {
+                    bottomNavigationView.getMenu().findItem(R.id.routineFragment).setChecked(true);
+                }
             }
-
-
         });
+
     }
 
 }

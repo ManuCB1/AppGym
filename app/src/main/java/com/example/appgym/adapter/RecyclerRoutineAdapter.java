@@ -22,9 +22,9 @@ import java.util.List;
 public class RecyclerRoutineAdapter extends RecyclerView.Adapter<RecyclerRoutineAdapter.ViewHolder> {
 
     private List<DayRecycler> mData;
-    private List<Rutina> ejercicios = new ArrayList<>();
+    private List<Rutina> rutinas = new ArrayList<>();
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
+//    private ItemClickListener mClickListener;
     private int position;
 
     public int getPosition() {
@@ -59,12 +59,12 @@ public class RecyclerRoutineAdapter extends RecyclerView.Adapter<RecyclerRoutine
             holder.expandableLayout.setVisibility(View.GONE);
             holder.arrowImage.setImageResource(R.drawable.arrow_down);
         }
-        if (datos.getEjercicios().size() == 0){
+        if (datos.getRutinas().size() == 0){
             holder.arrowImage.setVisibility(View.INVISIBLE);
         }else {
             holder.arrowImage.setVisibility(View.VISIBLE);
         }
-        RecyclerChildAdapter childAdapter = new RecyclerChildAdapter(ejercicios);
+        RecyclerChildAdapter childAdapter = new RecyclerChildAdapter(rutinas);
         holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         holder.recyclerChild.setHasFixedSize(true);
         holder.recyclerChild.setAdapter(childAdapter);
@@ -72,7 +72,7 @@ public class RecyclerRoutineAdapter extends RecyclerView.Adapter<RecyclerRoutine
         holder.linearLayout.setOnClickListener(view -> {
             setPosition(holder.getAdapterPosition());
             datos.setExpandable(!datos.isExpandable());
-            ejercicios = datos.getEjercicios();
+            rutinas = datos.getRutinas();
             notifyItemChanged(holder.getAdapterPosition());
         });
 
@@ -110,30 +110,20 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreate
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("--Selecciona una opción--");
-//        Context context = v.getContext();
-//        MenuInflater inflater = new MenuInflater(context);
-//        inflater.inflate(R.menu.menu_contextual, menu);
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        if (mClickListener != null){
-//            mClickListener.onItemClick(view, getAdapterPosition());
-//
-//        }
-//    }
 }
 
-    String getItem(int id){
-        return mData.get(id).toString();
-    }
+//    String getItem(int id){
+//        return mData.get(id).toString();
+//    }
 
-    void setClickListener(ItemClickListener itemClickListener){
-        this.mClickListener = itemClickListener;
-    }
+//    void setClickListener(ItemClickListener itemClickListener){
+//        this.mClickListener = itemClickListener;
+//    }
 
-    public interface ItemClickListener{
-        void onItemClick(View activista, int position);
-    }
+//    public interface ItemClickListener{
+//        void onItemClick(View activista, int position);
+//    }
 }
 

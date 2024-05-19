@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,26 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.appgym.R;
-import com.example.appgym.model.Ejercicio;
 import com.example.appgym.model.Rutina;
 import com.example.appgym.model.DayRecycler;
 import com.example.appgym.adapter.RecyclerRoutineAdapter;
-import com.example.appgym.model.DayWeek;
-import com.example.appgym.persistencia.BaseBBDD;
+import com.example.appgym.model.Days;
 import com.example.appgym.model.TaskCompleted;
-import com.example.appgym.repository.RutinaRepositoryBO;
-import com.example.appgym.repository.RutinaRepositoryImpl;
-import com.example.appgym.utils.Constantes;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.appgym.service.RutinaServiceImpl;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +34,7 @@ public class RoutineFragment extends Fragment {
     private List<DayRecycler> dataRecycler;
     private RecyclerRoutineAdapter adapter;
     private ImageView newRoutine, infoRoutine;
-    private RutinaRepositoryImpl rutinaRepository;
+    private RutinaServiceImpl rutinaService;
 
     private List<String> days;
 
@@ -73,6 +64,9 @@ public class RoutineFragment extends Fragment {
         infoRoutine.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_routineFragment_to_infoRoutineFragment);
         });
+        newRoutine.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_routineFragment_to_newRoutineFragment);
+        });
 
         try {
             loadRutinas();
@@ -83,8 +77,8 @@ public class RoutineFragment extends Fragment {
     }
 
     private void loadRutinas() throws UnsupportedEncodingException {
-        rutinaRepository = new RutinaRepositoryImpl(getContext());
-        rutinaRepository.getRutinas(new TaskCompleted<List<Rutina>>() {
+        rutinaService = new RutinaServiceImpl(getContext());
+        rutinaService.getRutinas(new TaskCompleted<List<Rutina>>() {
             @Override
             public void onTaskCompleted(List<Rutina> s) {
                 loadRecycler(s);
@@ -97,17 +91,16 @@ public class RoutineFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         dataRecycler = new ArrayList<>();
-        days = new ArrayList<>();
+        days = Days.getAll();
 
-        for (DayWeek day: DayWeek.values()){
-            days.add(day.getNombre());
+        for (String day: days){
             List<Rutina> rutinasTemp = new ArrayList<>();
             for (Rutina rutina: rutinas){
-                if ( day.getNombre().equals(rutina.getDay())){
+                if ( day.equals(rutina.getDay())){
                     rutinasTemp.add(rutina);
                 }
             }
-            dataRecycler.add(new DayRecycler(day.getNombre(), rutinasTemp));
+            dataRecycler.add(new DayRecycler(day, rutinasTemp));
         }
 
 //        En streams:

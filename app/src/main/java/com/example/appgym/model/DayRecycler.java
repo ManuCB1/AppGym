@@ -5,12 +5,12 @@ import java.util.List;
 public class DayRecycler {
 
     private String title;
-    private List<Rutina> ejercicios;
+    private List<Rutina> rutinas;
     private boolean expandable;
 
-    public DayRecycler(String title, List<Rutina> ejercicios) {
+    public DayRecycler(String title, List<Rutina> rutinas) {
         this.title = title;
-        this.ejercicios = ejercicios;
+        this.rutinas = rutinas;
         this.expandable = false;
     }
 
@@ -22,12 +22,12 @@ public class DayRecycler {
         this.title = title;
     }
 
-    public List<Rutina> getEjercicios() {
-        return ejercicios;
+    public List<Rutina> getRutinas() {
+        return rutinas;
     }
 
-    public void setEjercicios(List<Rutina> ejercicios) {
-        this.ejercicios = ejercicios;
+    public void setRutinas(List<Rutina> rutinas) {
+        this.rutinas = rutinas;
     }
 
     public boolean isExpandable() {

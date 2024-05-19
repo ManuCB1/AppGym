@@ -1,6 +1,9 @@
 package com.example.appgym.model;
 
-public enum DayWeek {
+import java.util.ArrayList;
+import java.util.List;
+
+public enum Days {
     Lunes("Lunes"),
     Martes("Martes"),
     Miercoles("Miércoles"),
@@ -11,11 +14,19 @@ public enum DayWeek {
 
     private String nombre;
 
-    DayWeek(String nombre) {
+    Days(String nombre) {
         this.nombre = nombre;
     }
 
     public String getNombre() {
         return nombre;
+    }
+
+    public static List<String> getAll() {
+        List<String> days = new ArrayList<>();
+        for (Days day: Days.values()){
+            days.add(day.getNombre());
+        }
+        return days;
     }
 }

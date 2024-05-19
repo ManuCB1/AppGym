@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_routineFragment_to_infoRoutineFragment"
             app:destination="@id/infoRoutineFragment" />
+        <action
+            android:id="@+id/action_routineFragment_to_newRoutineFragment"
+            app:destination="@id/newRoutineFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -40,7 +43,23 @@
 
     <fragment
         android:id="@+id/infoRoutineFragment"
-        android:name="com.example.appgym.control.fragments.infoRoutineFragment"
+        android:name="com.example.appgym.control.fragments.InfoRoutineFragment"
         android:label="@string/title_info_routine"
-        tools:layout="@layout/fragment_info_routine"/>
+        tools:layout="@layout/fragment_info_routine">
+        <action
+            android:id="@+id/action_infoRoutineFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newRoutineFragment"
+        android:name="com.example.appgym.control.fragments.NewRoutineFragment"
+        android:label="@string/title_new_routine"
+        tools:layout="@layout/fragment_new_routine" >
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.appgym.control.fragments.DetailFragment"
+        android:label="@string/title_detail_routine"
+        tools:layout="@layout/fragment_detail" >
+    </fragment>
 </navigation>

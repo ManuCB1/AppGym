@@ -75,9 +75,9 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     }
 
 }
-    String getItem(int id){
-        return mData.get(id).toString();
-    }
+//    String getItem(int id){
+//        return mData.get(id).toString();
+//    }
 
 }
 

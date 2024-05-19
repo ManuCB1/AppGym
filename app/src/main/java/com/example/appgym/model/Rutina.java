@@ -1,8 +1,9 @@
 package com.example.appgym.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Rutina {
+public class Rutina implements Serializable {
 
     private String nombre;
     private List<Ejercicio> ejercicios;

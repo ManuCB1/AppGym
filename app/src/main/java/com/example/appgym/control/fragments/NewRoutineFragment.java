@@ -8,12 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appgym.R;
@@ -51,8 +56,8 @@ public class NewRoutineFragment extends Fragment {
         final int[] cantidadSeries = {0};
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_ejercicio, null);
         LinearLayout contenedorTexts = dialogView.findViewById(R.id.contenedorTexts);
-        Button btnAddRow = dialogView.findViewById(R.id.btnAddRow);
-        Button btnDeleteRow = dialogView.findViewById(R.id.btnDeleteRow);
+        ImageView btnAddRow = dialogView.findViewById(R.id.btnAddRow);
+        ImageView btnDeleteRow = dialogView.findViewById(R.id.btnDeleteRow);
 
         addRow(cantidadSeries, contenedorTexts);
 
@@ -63,27 +68,63 @@ public class NewRoutineFragment extends Fragment {
             deleteRow(cantidadSeries, contenedorTexts);
         });
 
-        new AlertDialog.Builder(getContext())
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setView(dialogView)
                 .setTitle("Crear Ejercicio")
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        for (int j = 1; j < contenedorTexts.getChildCount(); j++) {
+                            RelativeLayout fila = (RelativeLayout) contenedorTexts.getChildAt(j);
+                            TextView text = (TextView) fila.getChildAt(1);
+                            Log.i("repeticiones", text.getText().toString());
+                        }
                     }
                 })
                 .setNegativeButton("Cancelar", null)
-                .create()
-                .show();
+                .create();
+        dialog.show();
 
     }
 
     private void addRow(int[] cantidadSeries, LinearLayout contenedorTexts) {
         cantidadSeries[0]++;
-        EditText editText = new EditText(getContext());
-        editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        editText.setHint("Repeticiones para Serie " + cantidadSeries[0]);
-        contenedorTexts.addView(editText);
+
+//        Crear un RelativeLayout y su Layout
+        RelativeLayout relativeLayout = new RelativeLayout(getContext());
+        LinearLayout.LayoutParams paramsRelative = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsRelative.setMargins(26,0,10,0);
+        relativeLayout.setLayoutParams(paramsRelative);
+
+//        Crear el Layout de los Texts
+        RelativeLayout.LayoutParams paramsSerie = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams paramsRepeticiones = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        //        Modificar Layout para colocarlos correctamente
+        paramsSerie.addRule(RelativeLayout.CENTER_VERTICAL);
+        paramsRepeticiones.addRule(RelativeLayout.ALIGN_PARENT_END);
+        paramsRepeticiones.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+//        Crear el EditText
+        TextView textSerie = new TextView(getContext());
+        textSerie.setLayoutParams(paramsSerie);
+        textSerie.setText(""+cantidadSeries[0]);
+
+//        Crear el EditText
+        EditText textRepeticiones = new EditText(getContext());
+        textRepeticiones.setLayoutParams(paramsRepeticiones);
+        textRepeticiones.setHint("0");
+        textRepeticiones.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+//        Añadir a la vista
+        relativeLayout.addView(textSerie);
+        relativeLayout.addView(textRepeticiones);
+        contenedorTexts.addView(relativeLayout);
     }
     private void deleteRow(int[] cantidadSeries, LinearLayout contenedorTexts) {
         if (cantidadSeries[0] > 1){

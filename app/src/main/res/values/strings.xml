@@ -11,13 +11,14 @@
     <string name="title_new_routine">Nueva Rutina</string>
     <string name="title_info">Información</string>
     <string name="title_remove">Eliminar</string>
-    <!--    Profile-->
-    <string name="login">Log In</string>
+    <string name="log_in">Log In</string>
     <string name="info">Información</string>
     <string name="email">Email</string>
     <string name="height">Altura (cm)</string>
     <string name="weight">Peso (kg)</string>
-    <string name="logOut">Cerrar Sesión</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="log_out">Cerrar Sesión</string>
+    <!--    Texts-->
+    <string name="hint_nombre">Nombre Ejercicio</string>
+    <string name="num_series">Nº Serie</string>
+    <string name="repeticiones">Repeticiones</string>
 </resources>

@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/inicio"
-        android:title="@string/title_main" />
+        android:title="@string/title_home" />
     <item
         android:id="@+id/webContentFragment"
         android:layout_width="wrap_content"

@@ -7,8 +7,9 @@
         android:layout_height="wrap_content"
         android:title="@string/info" />
     <item
-        android:id="@+id/titleRemove"
+        android:id="@+id/titleHistorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/remove" />
+        android:title="@string/save_historial" />
+
 </menu>

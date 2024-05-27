@@ -19,10 +19,12 @@ import java.util.List;
 public class RecyclerInfoRoutineAdapter extends RecyclerView.Adapter<RecyclerInfoRoutineAdapter.ViewHolder> {
 
     private List<Rutina> mData;
+    private int menuLayout;
     private PopupListener listener;
 
-    public RecyclerInfoRoutineAdapter(List<Rutina> data,PopupListener listener) {
+    public RecyclerInfoRoutineAdapter(List<Rutina> data, int menuLayout, PopupListener listener) {
         this.mData = data;
+        this.menuLayout = menuLayout;
         this.listener = listener;
     }
 
@@ -42,7 +44,7 @@ public class RecyclerInfoRoutineAdapter extends RecyclerView.Adapter<RecyclerInf
             public void onClick(View view) {
                 PopupMenu popup = new PopupMenu(view.getContext(), holder.contextInfoRoutine);
                 MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.menu_context_info_routine, popup.getMenu());
+                inflater.inflate(menuLayout, popup.getMenu());
                 popup.setOnMenuItemClickListener(item -> {
                     listener.selectedItem(holder.getAdapterPosition(), item);
                     return true;

@@ -4,28 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum Days {
-    Lunes("Lunes"),
-    Martes("Martes"),
-    Miercoles("Miércoles"),
-    Jueves("Jueves"),
-    Viernes("Viernes"),
-    Sabado("Sábado"),
-    Domingo("Domingo");
+    Seleccionar("Sin Asignar"),
+    Lunes("lunes"),
+    Martes("martes"),
+    Miercoles("miercoles"),
+    Jueves("jueves"),
+    Viernes("viernes"),
+    Sabado("sabado"),
+    Domingo("domingo");
 
-    private String nombre;
+    private String day;
 
-    Days(String nombre) {
-        this.nombre = nombre;
+    Days(String day) {
+        this.day = day;
     }
 
-    public String getNombre() {
-        return nombre;
+    public static String get(int position) {
+        return values()[position].getDay();
+    }
+
+    public String getDay() {
+        return day;
     }
 
     public static List<String> getAll() {
         List<String> days = new ArrayList<>();
         for (Days day: Days.values()){
-            days.add(day.getNombre());
+            days.add(day.getDay());
         }
         return days;
     }

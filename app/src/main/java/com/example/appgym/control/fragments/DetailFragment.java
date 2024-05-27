@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,14 +22,15 @@ import com.example.appgym.model.Rutina;
 
 import java.util.List;
 
-public class DetailFragment extends Fragment {
+public class DetailFragment extends BaseFragment {
 
     private Rutina rutina;
     private RecyclerView recycler;
     private TextView titleRoutine, titleDay;
     private ImageView image_info;
     private Spinner spinner;
-
+    private int title = R.string.title_detail_routine;
+    private int menu = 0;
     private static final String argParam1 = "rutina";
 
     public DetailFragment() {
@@ -57,16 +56,17 @@ public class DetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         titleRoutine = view.findViewById(R.id.titleRoutine);
-        titleDay = view.findViewById(R.id.titleDay);
+//        titleDay = view.findViewById(R.id.titleDay);
         recycler = view.findViewById(R.id.recycler);
         spinner = view.findViewById(R.id.spinner);
 
         setData();
+        setMenu(getString(title), menu);
     }
 
     private void setData() {
         titleRoutine.setText(rutina.getNombre());
-        titleDay.setText(rutina.getDay());
+//        titleDay.setText(rutina.getDay());
 
 //        Spinner
         List<String> days = Days.getAll();

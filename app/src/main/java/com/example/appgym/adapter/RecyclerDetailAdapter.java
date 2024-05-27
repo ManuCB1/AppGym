@@ -23,8 +23,8 @@ import java.util.List;
 public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAdapter.ViewHolder> {
 
     private List<Ejercicio> mData = new ArrayList<>();
-    private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
+//    private LayoutInflater mInflater;
+//    private ItemClickListener mClickListener;
     private int position;
 
     public int getPosition() {
@@ -137,12 +137,12 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreate
         return mData.get(id).toString();
     }
 
-    void setClickListener(ItemClickListener itemClickListener){
-        this.mClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener{
-        void onItemClick(View activista, int position);
-    }
+//    void setClickListener(ItemClickListener itemClickListener){
+//        this.mClickListener = itemClickListener;
+//    }
+//
+//    public interface ItemClickListener{
+//        void onItemClick(View activista, int position);
+//    }
 }
 

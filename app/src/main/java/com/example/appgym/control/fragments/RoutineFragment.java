@@ -4,16 +4,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.example.appgym.R;
 import com.example.appgym.model.Rutina;
@@ -21,22 +19,22 @@ import com.example.appgym.model.DayRecycler;
 import com.example.appgym.adapter.RecyclerRoutineAdapter;
 import com.example.appgym.model.Days;
 import com.example.appgym.model.TaskCompleted;
-import com.example.appgym.service.RutinaServiceImpl;
+import com.example.appgym.repository.RutinaRepositoryImpl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class RoutineFragment extends Fragment {
+public class RoutineFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private List<DayRecycler> dataRecycler;
+    private List<Rutina> rutinas;
     private RecyclerRoutineAdapter adapter;
-    private ImageView newRoutine, infoRoutine;
-    private RutinaServiceImpl rutinaService;
-
-    private List<String> days;
+    private RutinaRepositoryImpl rutinaRepository;
+    private int title = R.string.title_routine;
+    private int menu = R.menu.menu_routine;
 
     public RoutineFragment() {
         // Required empty public constructor
@@ -57,44 +55,40 @@ public class RoutineFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        newRoutine = view.findViewById(R.id.newRoutine);
-        infoRoutine = view.findViewById(R.id.infoRoutine);
         recyclerView  = view.findViewById(R.id.recycler);
-        infoRoutine.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_routineFragment_to_infoRoutineFragment);
-        });
-        newRoutine.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_routineFragment_to_newRoutineFragment);
-        });
 
         try {
             loadRutinas();
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
+        setMenu(getString(title), menu);
     }
 
     private void loadRutinas() throws UnsupportedEncodingException {
-        rutinaService = new RutinaServiceImpl(getContext());
-        rutinaService.getRutinas(new TaskCompleted<List<Rutina>>() {
+        rutinaRepository = new RutinaRepositoryImpl(getContext());
+        rutinas = new ArrayList<>();
+        rutinaRepository.getRutinas(new TaskCompleted<List<Rutina>>() {
             @Override
             public void onTaskCompleted(List<Rutina> s) {
-                loadRecycler(s);
+                rutinas.addAll(s);
+                loadRecycler();
             }
         });
     }
 
-    private void loadRecycler(List<Rutina> rutinas) {
+    private void loadRecycler() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         dataRecycler = new ArrayList<>();
-        days = Days.getAll();
+        List<String> days = Days.getAll();
+        days.remove(Days.Seleccionar.getDay());
+        List<Rutina> rutinasTemp;
 
         for (String day: days){
-            List<Rutina> rutinasTemp = new ArrayList<>();
+            rutinasTemp = new ArrayList<>();
             for (Rutina rutina: rutinas){
                 if ( day.equals(rutina.getDay())){
                     rutinasTemp.add(rutina);
@@ -103,19 +97,19 @@ public class RoutineFragment extends Fragment {
             dataRecycler.add(new DayRecycler(day, rutinasTemp));
         }
 
-//        En streams:
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            days.forEach(day -> {
-//                List<Rutina> rutinasTemp = new ArrayList<>();
-//                rutinas.stream()
-//                        .filter(rutina -> rutina.getDay().equals(day))
-//                        .forEach(rutina -> rutinasTemp.add(rutina));
-//                datos.add(new DayRecycler(day,rutinasTemp));
-//            });
-//        }
-
         adapter = new RecyclerRoutineAdapter(dataRecycler);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()== R.id.itemInfo){
+            Navigation.findNavController(getView()).navigate(R.id.action_routineFragment_to_infoRoutineFragment);
+        }
+        if (item.getItemId()== R.id.itemNew){
+            Navigation.findNavController(getView()).navigate(R.id.action_routineFragment_to_newRoutineFragment);
+        }
+        return false;
     }
 
 }

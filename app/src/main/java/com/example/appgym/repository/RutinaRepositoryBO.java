@@ -1,15 +1,17 @@
 package com.example.appgym.repository;
 
 import com.example.appgym.model.Rutina;
+import com.example.appgym.model.RutinaDTO;
 import com.example.appgym.model.TaskCompleted;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface RutinaRepositoryBO {
-    public void getRutinas(TaskCompleted<List<Rutina>> task) throws UnsupportedEncodingException;
-    public void createRutina(Rutina rutina) throws UnsupportedEncodingException;
-    public Rutina getRutinaByName(String name);
-    public void getRutinasByDay(String day, TaskCompleted<List<Rutina>> listener);
-    public void deleteRutina(String name);
+    public void getAll(TaskCompleted<List<Rutina>> task) throws UnsupportedEncodingException;
+    public Rutina getByName(String name);
+    public void getByDay(String day, TaskCompleted<List<Rutina>> listener);
+    public void create(RutinaDTO rutina) throws UnsupportedEncodingException;
+    public void putDay(String day, int id);
+    public void delete(int id);
 }

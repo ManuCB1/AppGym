@@ -10,7 +10,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 
 import com.example.appgym.R;
 import com.example.appgym.adapter.RecyclerInfoRoutineAdapter;
-import com.example.appgym.model.Days;
 import com.example.appgym.model.PopupListener;
 import com.example.appgym.model.Rutina;
 import com.example.appgym.model.TaskCompleted;
@@ -69,7 +67,7 @@ public class MainFragment extends BaseFragment implements PopupListener {
         recycler = view.findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        textDate.setOnClickListener(v -> showCalendar(getContext()));
+        textDate.setOnClickListener(v -> showCalendar(requireContext()));
 
         setMenu(getString(title), menu);
     }
@@ -115,7 +113,7 @@ public class MainFragment extends BaseFragment implements PopupListener {
     private void loadRecycler(String day) {
         rutinas = new ArrayList<>();
         rutinaRepository = new RutinaRepositoryImpl(requireContext());
-        rutinaRepository.getRutinasByDay(day, new TaskCompleted<List<Rutina>>() {
+        rutinaRepository.getByDay(day, new TaskCompleted<List<Rutina>>() {
             @Override
             public void onTaskCompleted(List<Rutina> s) {
                 if ( s != null){
@@ -153,6 +151,6 @@ public class MainFragment extends BaseFragment implements PopupListener {
     private void sendRoutine(int position) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(argParam1, rutinas.get(position));
-        Navigation.findNavController(getView()).navigate(R.id.action_mainFragment_to_detailFragment, bundle);
+        Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment_to_detailFragment, bundle);
     }
 }

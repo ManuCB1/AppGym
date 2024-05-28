@@ -67,9 +67,9 @@ public class RoutineFragment extends BaseFragment {
     }
 
     private void loadRutinas() throws UnsupportedEncodingException {
-        rutinaRepository = new RutinaRepositoryImpl(getContext());
+        rutinaRepository = new RutinaRepositoryImpl(requireContext());
         rutinas = new ArrayList<>();
-        rutinaRepository.getRutinas(new TaskCompleted<List<Rutina>>() {
+        rutinaRepository.getAll(new TaskCompleted<List<Rutina>>() {
             @Override
             public void onTaskCompleted(List<Rutina> s) {
                 rutinas.addAll(s);
@@ -80,7 +80,7 @@ public class RoutineFragment extends BaseFragment {
 
     private void loadRecycler() {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         dataRecycler = new ArrayList<>();
         List<String> days = Days.getAll();

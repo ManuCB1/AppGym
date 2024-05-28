@@ -3,22 +3,16 @@ package com.example.appgym.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class Rutina implements Serializable {
+public class RutinaDTO implements Serializable {
 
-    private int id;
     private String nombre;
     private List<Ejercicio> ejercicios;
     private String day;
 
-    public Rutina(int id, String nombre, List<Ejercicio> ejercicios, String day) {
-        this.id = id;
+    public RutinaDTO(String nombre, List<Ejercicio> ejercicios, String day) {
         this.nombre = nombre;
         this.ejercicios = ejercicios;
         this.day = day;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getNombre() {

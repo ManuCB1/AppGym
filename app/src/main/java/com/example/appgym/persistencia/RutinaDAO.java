@@ -2,6 +2,7 @@ package com.example.appgym.persistencia;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -12,6 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appgym.model.Ejercicio;
 import com.example.appgym.model.Rutina;
+import com.example.appgym.model.RutinaDTO;
 import com.example.appgym.model.TaskCompleted;
 import com.example.appgym.utils.Constantes;
 
@@ -37,7 +39,7 @@ public class RutinaDAO implements BaseDAO{
     @Override
     public void getAll(TaskCompleted<List<Rutina>> listener){
         progressDialog.show();
-        String url = Constantes.url_base+Constantes.url_getRutinas+"?id_usuario=" + 1;
+        String url = Constantes.url_getRutinas+"?id_usuario=" + 1;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -61,9 +63,9 @@ public class RutinaDAO implements BaseDAO{
         requestQueue.add(jsonObjectRequest);
     }
     @Override
-    public void send(Rutina rutina){
+    public void create(RutinaDTO rutina){
         progressDialog.show();
-        String url = Constantes.url_base+Constantes.url_createRutina;
+        String url = Constantes.url_createRutina;
         try {
             JSONObject rutinaJson = new JSONObject();
             rutinaJson.put("nombre", rutina.getNombre());
@@ -111,7 +113,7 @@ public class RutinaDAO implements BaseDAO{
     @Override
     public void getByDay(String day, TaskCompleted<List<Rutina>> listener) {
         progressDialog.show();
-        String url = Constantes.url_base+Constantes.url_getRutinas_today+"?dia=" + day + "&id_usuario=" + 1;
+        String url = Constantes.url_getRutinas_today+"?dia=" + day + "&id_usuario=" + 1;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -135,6 +137,78 @@ public class RutinaDAO implements BaseDAO{
         requestQueue.add(jsonObjectRequest);
     }
 
+    @Override
+    public void putDayRutina(String day, int id) {
+        progressDialog.show();
+        String url = Constantes.url_putDayRoutine;
+        try {
+            JSONObject params = new JSONObject();
+            params.put("nuevo_dia", day);
+            params.put("id_rutina", id);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.PUT,
+                    url,
+                    params,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                boolean sucess = response.getBoolean("success");
+                                String message = response.getString("message");
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context, error.getMessage()+"", Toast.LENGTH_SHORT).show();
+                            Log.i("error", error.getMessage());
+                            progressDialog.dismiss();
+                        }
+                    });
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        progressDialog.show();
+        String url = Constantes.url_deleteRoutine + "?id_rutina=" + id;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            boolean sucess = response.getBoolean("success");
+                            String message = response.getString("message");
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, error.getMessage()+"", Toast.LENGTH_SHORT).show();
+                        Log.i("error", error.getMessage());
+                        progressDialog.dismiss();
+                    }
+                });
+        requestQueue.add(jsonObjectRequest);
+    }
+
 
     private List<Rutina> parseJsonToRoutine(JSONObject response) {
         List<Rutina> rutinasAll = new ArrayList<>();
@@ -148,7 +222,7 @@ public class RutinaDAO implements BaseDAO{
                     for (int i = 0; i < rutinas.length(); i++) {
                         List<Ejercicio> ejerciciosRutina = new ArrayList<>();
                         JSONObject rutinaActual = rutinas.getJSONObject(i);
-//                        int id = rutinas.getInt("id");
+                        int id = rutinaActual.getInt("id");
                         String nombre_rutina = rutinaActual.getString("nombre_rutina");
                         String dia = rutinaActual.getString("dia");
 
@@ -162,7 +236,7 @@ public class RutinaDAO implements BaseDAO{
 
                             ejerciciosRutina.add(new Ejercicio(nombreEjercicio, series, repeticiones));
                         }
-                        rutinasAll.add(new Rutina(nombre_rutina, ejerciciosRutina, dia));
+                        rutinasAll.add(new Rutina(id, nombre_rutina, ejerciciosRutina, dia));
                     }
                 }
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

@@ -1,13 +1,16 @@
 package com.example.appgym.control.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,7 +74,7 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
     private void getRutinas() throws UnsupportedEncodingException {
         rutinaRepository = new RutinaRepositoryImpl(getContext());
         rutinas = new ArrayList<>();
-        rutinaRepository.getRutinas(new TaskCompleted<List<Rutina>>() {
+        rutinaRepository.getAll(new TaskCompleted<List<Rutina>>() {
             @Override
             public void onTaskCompleted(List<Rutina> s) {
                 rutinas.addAll(s);
@@ -91,8 +94,35 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
             sendRoutine(position);
         }
         if (item.getItemId() == R.id.titleRemove){
-
+            showDialogDelete(position);
         }
+    }
+
+    private void showDialogDelete(int position) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Eliminar")
+                .setMessage("¿Borrar la rutina " + rutinas.get(position).getNombre()+ "?")
+                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                rutinaRepository = new RutinaRepositoryImpl(requireContext());
+                rutinaRepository.delete(rutinas.get(position).getId());
+                try {
+                    getRutinas();
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        })
+                .create()
+                .show();
     }
 
     private void sendRoutine(int position) {

@@ -3,6 +3,7 @@ package com.example.appgym.repository;
 import android.content.Context;
 
 import com.example.appgym.model.Rutina;
+import com.example.appgym.model.RutinaDTO;
 import com.example.appgym.model.TaskCompleted;
 import com.example.appgym.persistencia.RutinaDAO;
 
@@ -71,26 +72,32 @@ public class RutinaRepositoryImpl implements RutinaRepositoryBO{
 //    }
 
     @Override
-    public void getRutinas(TaskCompleted<List<Rutina>> listener) throws UnsupportedEncodingException {
+    public void getAll(TaskCompleted<List<Rutina>> listener) throws UnsupportedEncodingException {
         rutinaDAO.getAll(listener);
     }
 
     @Override
-    public void createRutina(Rutina rutina) throws UnsupportedEncodingException {
-        rutinaDAO.send(rutina);
+    public void create(RutinaDTO rutina) throws UnsupportedEncodingException {
+        rutinaDAO.create(rutina);
     }
 
     @Override
-    public Rutina getRutinaByName(String name) {
+    public void putDay(String day, int id) {
+        rutinaDAO.putDayRutina(day, id);
+    }
+
+    @Override
+    public Rutina getByName(String name) {
         return null;
     }
 
     @Override
-    public void getRutinasByDay(String day, TaskCompleted<List<Rutina>> listener) {
+    public void getByDay(String day, TaskCompleted<List<Rutina>> listener) {
         rutinaDAO.getByDay(day, listener);
     }
 
     @Override
-    public void deleteRutina(String name) {
+    public void delete(int id) {
+        rutinaDAO.delete(id);
     }
 }

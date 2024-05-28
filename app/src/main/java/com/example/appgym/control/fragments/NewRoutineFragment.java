@@ -27,7 +27,7 @@ import com.example.appgym.adapter.RecyclerDetailAdapter;
 import com.example.appgym.adapter.SpinnerAdapter;
 import com.example.appgym.model.Days;
 import com.example.appgym.model.Ejercicio;
-import com.example.appgym.model.Rutina;
+import com.example.appgym.model.RutinaDTO;
 import com.example.appgym.repository.RutinaRepositoryImpl;
 import com.example.appgym.utils.Validation;
 
@@ -214,18 +214,15 @@ public class NewRoutineFragment extends BaseFragment {
         String nombreRutina = textRutina.getText().toString();
         String day = (String) spinner.getSelectedItem();
         if (!Validation.validateName(nombreRutina)){
-            Toast.makeText(getContext(), "Nombre de Rutina Vacío", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Nombre de Rutina Vacío", Toast.LENGTH_SHORT).show();
             return;
         }
         if (ejercicios.size()== 0){
-            Toast.makeText(getContext(), "Mínimo 1 ejercicio", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Mínimo 1 ejercicio", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (day.equals(Days.Seleccionar.getDay())){
-            day = "";
-        }
-        Rutina rutina = new Rutina(nombreRutina, ejercicios, day);
-        rutinaRepository = new RutinaRepositoryImpl(getContext());
-        rutinaRepository.createRutina(rutina);
+        RutinaDTO rutina = new RutinaDTO(nombreRutina, ejercicios, day);
+        rutinaRepository = new RutinaRepositoryImpl(requireContext());
+        rutinaRepository.create(rutina);
     }
 }

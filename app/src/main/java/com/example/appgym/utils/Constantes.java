@@ -18,5 +18,8 @@ public class Constantes {
 //    Menú
     public static int menuInfoRoutine = R.menu.menu_context_info_routine;
     public static int menuHistorial = R.menu.menu_context_historial_routine;
+//    public static String apiKey = "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";
+//    public static String apiKeyHugging = "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";
+    public static String apiKeyGemini = "AIzaSyDPGbnJRs9kAhjQV3OanyB5XergB53cvKI";
 
 }

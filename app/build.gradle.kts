@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.appgym"
-        minSdk = 16
+        minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -39,7 +39,15 @@ dependencies {
     implementation ("androidx.navigation:navigation-ui-ktx:2.4.0")
 //    Implementación para Volley
     implementation ("com.android.volley:volley:1.2.1")
-
+//    Implementación para Chat Gemini
+//    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
+//    implementation ("com.google.code.gson:gson:2.8.6")
+    // add the dependency for the Google AI client SDK for Android
+    implementation("com.google.ai.client.generativeai:generativeai:0.6.0")
+    // Required for one-shot operations (to use `ListenableFuture` from Guava Android)
+    implementation("com.google.guava:guava:31.0.1-android")
+    // Required for streaming operations (to use `Publisher` from Reactive Streams)
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

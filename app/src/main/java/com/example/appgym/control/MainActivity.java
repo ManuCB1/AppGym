@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
-            navController.navigate(id);
-            return true;
-        });
+//        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+//            int id = item.getItemId();
+//            navController.navigate(id);
+//            return false;
+//        });
 
         // Para que aparezca seleccionado el menu que queramos al cambiar a un fragment que no está
         // definido en el menu (es un submenu).

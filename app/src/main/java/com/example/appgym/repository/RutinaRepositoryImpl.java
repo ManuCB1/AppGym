@@ -5,18 +5,18 @@ import android.content.Context;
 import com.example.appgym.model.Rutina;
 import com.example.appgym.model.RutinaDTO;
 import com.example.appgym.model.TaskCompleted;
-import com.example.appgym.persistencia.RutinaDAO;
+import com.example.appgym.persistencia.RutinaDAOImpl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class RutinaRepositoryImpl implements RutinaRepositoryBO{
     private Context context;
-    private RutinaDAO rutinaDAO;
+    private RutinaDAOImpl rutinaDAO;
 
     public RutinaRepositoryImpl(Context context) {
         this.context = context;
-        rutinaDAO = new RutinaDAO(context);
+        rutinaDAO = new RutinaDAOImpl(context);
     }
 
 //    @Override
@@ -83,7 +83,7 @@ public class RutinaRepositoryImpl implements RutinaRepositoryBO{
 
     @Override
     public void putDay(String day, int id) {
-        rutinaDAO.putDayRutina(day, id);
+        rutinaDAO.putDay(day, id);
     }
 
     @Override

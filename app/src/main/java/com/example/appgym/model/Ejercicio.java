@@ -9,10 +9,15 @@ public class Ejercicio {
     private String repeticiones;
     private String imagen;
 
-    public Ejercicio(String nombre, int series, String repeticiones) {
+    public Ejercicio(String nombre, int series, String repeticiones, String imagen) {
         this.nombre = nombre;
         this.series = series;
         this.repeticiones = repeticiones;
+        this.imagen = imagen;
+    }
+
+    public Ejercicio(String nombre) {
+        this.nombre = nombre;
     }
 
     public Ejercicio() {

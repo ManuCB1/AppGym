@@ -233,8 +233,9 @@ public class RutinaDAOImpl implements RutinaDAO {
                             String nombreEjercicio = ejercicioActual.getString("nombre_ejercicio");
                             int series = ejercicioActual.getInt("series");
                             String repeticiones = ejercicioActual.getString("repeticiones");
+                            String imagen = ejercicioActual.getString("imagen");
 
-                            ejerciciosRutina.add(new Ejercicio(nombreEjercicio, series, repeticiones));
+                            ejerciciosRutina.add(new Ejercicio(nombreEjercicio, series, repeticiones, imagen));
                         }
                         rutinasAll.add(new Rutina(id, nombre_rutina, ejerciciosRutina, dia));
                     }

@@ -115,50 +115,8 @@ public class SharedFragment extends BaseFragment {
             }
         }, executor);
     }
-
-//    private void sendRequestChat(String message) {
-//        OkHttpClient client = new OkHttpClient();
-//
-//        JSONObject json = new JSONObject();
-//        try {
-//            json.put("message", message);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        RequestBody body = RequestBody.create(json.toString(), MediaType.parse("application/json; charset=utf-8"));
-//        Request request = new Request.Builder()
-//                .url("https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3")
-//                .header("Authorization", "Bearer " + Constantes.apiKeyGemini)
-//                .post(body)
-//                .build();
-//
-//        client.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-//                addMessageByChat(e.getMessage(), false);
-//            }
-//
-//            @Override
-//            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-//                if (response.isSuccessful()) {
-//                    String responseBody = response.body().string();
-//                    try {
-//                        JSONArray jsonArray = new JSONArray(responseBody);
-//                        String generatedText = jsonArray.getJSONObject(0).getString("generated_text");
-//                        Log.i("texto generado", generatedText);
-//                        addMessageByChat(generatedText, false);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    addMessageByChat(response.body().toString(), false);
-//                    Log.i("Error", response.toString());
-//                }
-//            }
-//        });
-//    }
-
+//    TODO: Cambiar Imagen Enviar Chat
+//    TODO: Ajustes cuenta Gemini
     private void addMessageByChat(String message, boolean isUSer) {
         getActivity().runOnUiThread(() -> {
             messages.add(new MessageChat(message, isUSer));

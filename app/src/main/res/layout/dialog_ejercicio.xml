@@ -13,7 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="350dp"
             tools:layout_editor_absoluteX="11dp"
             tools:layout_editor_absoluteY="0dp">
 
@@ -27,7 +27,7 @@
                 app:layout_constraintHorizontal_bias="0.075"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.503">
+                app:layout_constraintVertical_bias="0.115">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textEjercicio"
@@ -36,6 +36,21 @@
                     android:hint="@string/hint_nombre_ejercicio"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerAPI"
+                android:layout_width="200dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.075"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutEjercicio"
+                app:layout_constraintVertical_bias="0.0">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
             <ImageView
                 android:id="@+id/btnAddRow"

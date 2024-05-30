@@ -1,6 +1,8 @@
 package com.example.appgym.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appgym.R;
 import com.example.appgym.model.Ejercicio;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +80,11 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.dialog_image, null);
         ImageView image = dialogView.findViewById(R.id.image_dialog);
+        String url = "https://wger.de"+imagen;
+        Log.i("imagen", imagen);
+        if (imagen != null && !imagen.isEmpty()){
+            Picasso.get().load(url).into(image);
+        }
 
         new AlertDialog.Builder(context)
                 .setView(dialogView)

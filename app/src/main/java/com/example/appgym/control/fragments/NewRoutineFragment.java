@@ -9,7 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,26 +26,42 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appgym.R;
+import com.example.appgym.adapter.RecyclerAPIAdapter;
 import com.example.appgym.adapter.RecyclerDetailAdapter;
 import com.example.appgym.adapter.SpinnerAdapter;
+import com.example.appgym.model.ClickListener;
 import com.example.appgym.model.Days;
 import com.example.appgym.model.Ejercicio;
+import com.example.appgym.model.EjercicioResponse;
 import com.example.appgym.model.RutinaDTO;
+import com.example.appgym.persistencia.api.ApiClient;
+import com.example.appgym.persistencia.api.WgerApi;
 import com.example.appgym.repository.RutinaRepositoryImpl;
 import com.example.appgym.utils.Validation;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class NewRoutineFragment extends BaseFragment {
 
     private RutinaRepositoryImpl rutinaRepository;
     private TextView textEjercicio, textRutina;
+    private TextWatcher textWatcher;
     private Button btnNewEjercicio, btnCreateRoutine;
     private RecyclerView recycler;
     private RecyclerDetailAdapter recyclerAdapter;
+    private RecyclerAPIAdapter recyclerAPIAdapter;
     private List<Ejercicio> ejercicios;
+    private List<EjercicioResponse> ejerciciosResponse;
+    private Ejercicio ejercicioTemp;
     private Spinner spinner;
     private SpinnerAdapter spinnerAdapter;
     private List<String> days = Days.getAll();
@@ -111,6 +130,29 @@ public class NewRoutineFragment extends BaseFragment {
         ImageView btnAddRow = dialogView.findViewById(R.id.btnAddRow);
         ImageView btnDeleteRow = dialogView.findViewById(R.id.btnDeleteRow);
         textEjercicio = dialogView.findViewById(R.id.textEjercicio);
+        RecyclerView recyclerAPI = dialogView.findViewById(R.id.recyclerAPI);
+        ejerciciosResponse = new ArrayList<>();
+
+        setTextWatcher();
+
+        recyclerAPIAdapter = new RecyclerAPIAdapter(ejerciciosResponse, new ClickListener() {
+            @Override
+            public void onClick(int position) {
+                textEjercicio.removeTextChangedListener(textWatcher);
+                EjercicioResponse ejercicioResponse = ejerciciosResponse.get(position);
+                textEjercicio.setText(ejercicioResponse.getNombre());
+                ejercicioTemp = new Ejercicio();
+                ejercicioTemp.setNombre(ejercicioResponse.getNombre());
+                ejercicioTemp.setImagen(ejercicioResponse.getImagen());
+                Log.i("imagen", ejercicioResponse.getImagen());
+                textEjercicio.addTextChangedListener(textWatcher);
+            }
+        });
+        recyclerAPI.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerAPI.setAdapter(recyclerAPIAdapter);
+
+
+        textEjercicio.addTextChangedListener(textWatcher);
 
         addRow(cantidadSeries, contenedorTexts);
 
@@ -134,6 +176,69 @@ public class NewRoutineFragment extends BaseFragment {
                 .create()
                 .show();
 
+    }
+
+    private void setTextWatcher() {
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchExercises(charSequence.toString());
+                ejercicioTemp = null;
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+    }
+
+    private void searchExercises(String nombre) {
+        WgerApi api = ApiClient.getWgerApi();
+        ejerciciosResponse.clear();
+        api.searchExercises(nombre).enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                JsonElement jsonElement = response.body();
+                if (jsonElement.isJsonObject()){
+                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                    if (jsonObject.has("suggestions")){
+                        JsonArray suggestions = jsonObject.getAsJsonArray("suggestions");
+                        for (JsonElement suggestionElements: suggestions){
+                            JsonObject suggestionObject = suggestionElements.getAsJsonObject();
+                            String value = suggestionObject.getAsJsonPrimitive("value").getAsString();
+                            JsonObject dataObject = suggestionObject.getAsJsonObject("data");
+                            int id = dataObject.getAsJsonPrimitive("id").getAsInt();
+                            int baseId = dataObject.getAsJsonPrimitive("base_id").getAsInt();
+                            String nombre = dataObject.getAsJsonPrimitive("name").getAsString();
+                            String categoria = dataObject.getAsJsonPrimitive("category").getAsString();
+                            JsonElement imageElement = dataObject.get("image");
+                            String imagen = "";
+                            if (imageElement != null && !imageElement.isJsonNull()) {
+                                imagen = imageElement.getAsString();
+                            }
+//                            JsonElement imageThumbnailElement = dataObject.get("image");
+//                            String imageThumbnail = null;
+//                            if (imageThumbnailElement != null && !imageThumbnailElement.isJsonNull()) {
+//                                imageThumbnail = imageThumbnailElement.getAsString();
+//                            }
+                            ejerciciosResponse.add(new EjercicioResponse(nombre, categoria, imagen));
+                        }
+                        recyclerAPIAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+
+            }
+        });
     }
 
     private void addRow(int[] cantidadSeries, LinearLayout contenedorTexts) {
@@ -206,7 +311,13 @@ public class NewRoutineFragment extends BaseFragment {
             }
             series++;
         }
-        ejercicios.add(new Ejercicio(nombreEjercicio, series, repeticiones.toString()));
+        if (ejercicioTemp != null){
+            ejercicios.add(new Ejercicio(ejercicioTemp.getNombre(), series, repeticiones.toString(), ejercicioTemp.getImagen()));
+            Log.i("imagen", ejercicioTemp.getImagen());
+        }
+        else {
+            ejercicios.add(new Ejercicio(nombreEjercicio, series, repeticiones.toString(), ""));
+        }
         recyclerAdapter.notifyDataSetChanged();
     }
 
@@ -222,7 +333,9 @@ public class NewRoutineFragment extends BaseFragment {
             return;
         }
         RutinaDTO rutina = new RutinaDTO(nombreRutina, ejercicios, day);
+//        TODO: meter imagen aqui y en php
         rutinaRepository = new RutinaRepositoryImpl(requireContext());
         rutinaRepository.create(rutina);
     }
+
 }

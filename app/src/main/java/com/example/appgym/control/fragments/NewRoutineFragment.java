@@ -2,6 +2,7 @@ package com.example.appgym.control.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -140,12 +141,13 @@ public class NewRoutineFragment extends BaseFragment {
             public void onClick(int position) {
                 textEjercicio.removeTextChangedListener(textWatcher);
                 EjercicioResponse ejercicioResponse = ejerciciosResponse.get(position);
-                textEjercicio.setText(ejercicioResponse.getNombre());
-                ejercicioTemp = new Ejercicio();
-                ejercicioTemp.setNombre(ejercicioResponse.getNombre());
-                ejercicioTemp.setImagen(ejercicioResponse.getImagen());
-                Log.i("imagen", ejercicioResponse.getImagen());
-                textEjercicio.addTextChangedListener(textWatcher);
+                if (ejercicioResponse != null){
+                    textEjercicio.setText(ejercicioResponse.getNombre());
+                    ejercicioTemp = new Ejercicio();
+                    ejercicioTemp.setNombre(ejercicioResponse.getNombre());
+                    ejercicioTemp.setImagen(ejercicioResponse.getImagen());
+                    textEjercicio.addTextChangedListener(textWatcher);
+                }
             }
         });
         recyclerAPI.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -187,6 +189,8 @@ public class NewRoutineFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                ejerciciosResponse.clear();
+                recyclerAPIAdapter.notifyDataSetChanged();
                 searchExercises(charSequence.toString());
                 ejercicioTemp = null;
             }
@@ -200,7 +204,6 @@ public class NewRoutineFragment extends BaseFragment {
 
     private void searchExercises(String nombre) {
         WgerApi api = ApiClient.getWgerApi();
-        ejerciciosResponse.clear();
         api.searchExercises(nombre).enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -333,9 +336,9 @@ public class NewRoutineFragment extends BaseFragment {
             return;
         }
         RutinaDTO rutina = new RutinaDTO(nombreRutina, ejercicios, day);
-//        TODO: meter imagen aqui y en php
         rutinaRepository = new RutinaRepositoryImpl(requireContext());
         rutinaRepository.create(rutina);
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
 }

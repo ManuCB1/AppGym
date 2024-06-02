@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-//TODO:
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -40,15 +40,11 @@ dependencies {
 //    Implementación para Volley
     implementation ("com.android.volley:volley:1.2.1")
 //    Implementación para Chat Gemini
-//    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
-//    implementation ("com.google.code.gson:gson:2.8.6")
-    // add the dependency for the Google AI client SDK for Android
     implementation("com.google.ai.client.generativeai:generativeai:0.6.0")
     // Required for one-shot operations (to use `ListenableFuture` from Guava Android)
     implementation("com.google.guava:guava:31.0.1-android")
     // Required for streaming operations (to use `Publisher` from Reactive Streams)
     implementation("org.reactivestreams:reactive-streams:1.0.4")
-
 //    Implementación API
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")

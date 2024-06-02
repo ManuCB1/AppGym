@@ -7,6 +7,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface WgerApi {
-    @GET("exercise/search/?language=2")
+    @GET("exercise/search/?language=4")
     Call<JsonElement> searchExercises(@Query("term") String term);
 }

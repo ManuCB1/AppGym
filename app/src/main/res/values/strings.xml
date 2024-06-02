@@ -5,11 +5,12 @@
     <string name="title_routine">Rutina</string>
     <string name="title_home">Inicio</string>
     <string name="title_profile">Perfil</string>
-    <string name="title_shared">Compartir</string>
+    <string name="title_chat">Chat</string>
     <string name="title_info_routine">Info Rutina</string>
     <string name="title_detail_routine">Detalles Rutina</string>
     <string name="title_new_routine">Nueva Rutina</string>
     <string name="log_in">Log In</string>
+    <string name="sign_uo">Sign Up</string>
     <!--    Menu-->
     <string name="info">Información</string>
     <string name="remove">Eliminar</string>

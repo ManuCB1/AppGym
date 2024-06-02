@@ -11,14 +11,25 @@
         android:id="@+id/btnConfirmar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="156dp"
         android:text="Confirmar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LayoutContrasenia"
-        app:layout_constraintVertical_bias="0.758" />
+        app:layout_constraintVertical_bias="0.345" />
+
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nueva Cuenta"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LayoutContrasenia"
+        app:layout_constraintVertical_bias="0.589" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/LayoutContrasenia"
@@ -33,7 +44,7 @@
         app:layout_constraintVertical_bias="0.118">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textContrasenia"
+            android:id="@+id/textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña (*)"
@@ -53,10 +64,10 @@
         app:layout_constraintVertical_bias="0.161">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textEmail"
+            android:id="@+id/textUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail (*)"
+            android:hint="Username (*)"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 

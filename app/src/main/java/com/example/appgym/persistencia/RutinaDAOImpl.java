@@ -15,6 +15,7 @@ import com.example.appgym.model.Ejercicio;
 import com.example.appgym.model.Rutina;
 import com.example.appgym.model.RutinaDTO;
 import com.example.appgym.model.TaskCompleted;
+import com.example.appgym.session.SessionManager;
 import com.example.appgym.utils.Constantes;
 
 import org.json.JSONArray;
@@ -28,10 +29,14 @@ public class RutinaDAOImpl implements RutinaDAO {
     private Context context;
     private RequestQueue requestQueue;
     private ProgressDialog progressDialog;
+    private SessionManager sessionManager;
+    private String username;
 
     public RutinaDAOImpl(Context context) {
         this.context = context;
         this.requestQueue = Volley.newRequestQueue(context);
+        sessionManager = new SessionManager(context);
+        username = sessionManager.getUsername();
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Cargando...");
         progressDialog.setCancelable(false);
@@ -39,7 +44,7 @@ public class RutinaDAOImpl implements RutinaDAO {
     @Override
     public void getAll(TaskCompleted<List<Rutina>> listener){
         progressDialog.show();
-        String url = Constantes.url_getRutinas+"?id_usuario=" + 1;
+        String url = Constantes.url_getRutinas+"?username=" + sessionManager.getUsername();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -48,8 +53,7 @@ public class RutinaDAOImpl implements RutinaDAO {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        List<Rutina> rutinasParse = parseJsonToRoutine(response);
-                        listener.onTaskCompleted(rutinasParse);
+                        listener.onTaskCompleted(parseJsonToRoutine(response));
                         progressDialog.dismiss();
                     }
                 },
@@ -69,7 +73,7 @@ public class RutinaDAOImpl implements RutinaDAO {
         try {
             JSONObject rutinaJson = new JSONObject();
             rutinaJson.put("nombre", rutina.getNombre());
-            rutinaJson.put("id_usuario", 1);
+            rutinaJson.put("username",  username);
             rutinaJson.put("dia", rutina.getDay());
             JSONArray ejerciciosArray = new JSONArray();
             for (Ejercicio ejercicio: rutina.getEjercicios()){
@@ -77,6 +81,7 @@ public class RutinaDAOImpl implements RutinaDAO {
                 ejerciciosJson.put("nombre", ejercicio.getNombre());
                 ejerciciosJson.put("series", ejercicio.getSeries());
                 ejerciciosJson.put("repeticiones", ejercicio.getRepeticiones());
+                ejerciciosJson.put("imagen", ejercicio.getImagen());
                 ejerciciosArray.put(ejerciciosJson);
             }
             rutinaJson.put("ejercicios", ejerciciosArray);
@@ -87,14 +92,8 @@ public class RutinaDAOImpl implements RutinaDAO {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            try {
-                                boolean sucess = response.getBoolean("success");
-                                String message = response.getString("message");
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            parseJsonToRoutine(response);
+                            progressDialog.dismiss();
                         }
                     },
                     new Response.ErrorListener() {
@@ -113,8 +112,7 @@ public class RutinaDAOImpl implements RutinaDAO {
     @Override
     public void getByDay(String day, TaskCompleted<List<Rutina>> listener) {
         progressDialog.show();
-        String url = Constantes.url_getRutinas_today+"?dia=" + day + "&id_usuario=" + 1;
-
+        String url = Constantes.url_getRutinas_today+"?dia=" + day + "&username=" + sessionManager.getUsername();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -122,8 +120,7 @@ public class RutinaDAOImpl implements RutinaDAO {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        List<Rutina> rutinasParse = parseJsonToRoutine(response);
-                        listener.onTaskCompleted(rutinasParse);
+                        listener.onTaskCompleted(parseJsonToRoutine(response));
                         progressDialog.dismiss();
                     }
                 },
@@ -153,21 +150,14 @@ public class RutinaDAOImpl implements RutinaDAO {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            try {
-                                boolean sucess = response.getBoolean("success");
-                                String message = response.getString("message");
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            parseJsonToRoutine(response);
+                            progressDialog.dismiss();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(context, error.getMessage()+"", Toast.LENGTH_SHORT).show();
-                            Log.i("error", error.getMessage());
                             progressDialog.dismiss();
                         }
                     });
@@ -188,21 +178,14 @@ public class RutinaDAOImpl implements RutinaDAO {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            boolean sucess = response.getBoolean("success");
-                            String message = response.getString("message");
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        parseJsonToRoutine(response);
+                        progressDialog.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(context, error.getMessage()+"", Toast.LENGTH_SHORT).show();
-                        Log.i("error", error.getMessage());
                         progressDialog.dismiss();
                     }
                 });
@@ -217,7 +200,7 @@ public class RutinaDAOImpl implements RutinaDAO {
                 String success = response.getString("success");
                 String message = response.getString("message");
 
-                if (success.equals("true")) {
+                if (response.has("rutinas") && success.equals("true")) {
                     JSONArray rutinas = response.getJSONArray("rutinas");
                     for (int i = 0; i < rutinas.length(); i++) {
                         List<Ejercicio> ejerciciosRutina = new ArrayList<>();
@@ -242,7 +225,7 @@ public class RutinaDAOImpl implements RutinaDAO {
                 }
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
         return rutinasAll;

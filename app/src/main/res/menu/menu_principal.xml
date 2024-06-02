@@ -6,7 +6,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/comentario"
-        android:title="@string/title_shared" />
+        android:title="@string/title_chat" />
     <item
         android:id="@+id/routineFragment"
         android:layout_width="wrap_content"

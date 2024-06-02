@@ -110,6 +110,7 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
                 rutinaRepository.delete(rutinas.get(position).getId());
                 try {
                     getRutinas();
+                    adapter.notifyDataSetChanged();
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }

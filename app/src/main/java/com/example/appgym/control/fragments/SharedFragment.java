@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -39,7 +38,7 @@ public class SharedFragment extends BaseFragment {
     private List<MessageChat> messages;
     private TextView textSendMessage;
     private ImageButton btnSend;
-    private int title = R.string.title_shared;
+    private int title = R.string.title_chat;
     private int menu = 0;
 
     public SharedFragment() {

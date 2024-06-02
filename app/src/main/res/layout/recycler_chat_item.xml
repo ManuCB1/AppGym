@@ -8,8 +8,7 @@
       android:id="@+id/layoutLeft"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:background="@drawable/rounded"
-      android:backgroundTint="@color/gray"
+      android:background="@drawable/chat_received"
       android:padding="8dp"
       android:layout_marginEnd="80dp">
     <TextView
@@ -18,15 +17,14 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         tools:text="@tools:sample/lorem"
-        android:textSize="22dp"/>
+        android:textSize="16dp"/>
   </LinearLayout>
 
   <LinearLayout
       android:id="@+id/layoutRight"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:background="@drawable/rounded"
-      android:backgroundTint="@color/green"
+      android:background="@drawable/chat_send"
       android:padding="8dp"
       android:layout_marginStart="80dp"
       android:layout_alignParentEnd="true">
@@ -36,6 +34,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         tools:text="@tools:sample/lorem"
-        android:textSize="22dp"/>
+        android:textSize="16dp"/>
   </LinearLayout>
 </RelativeLayout>

@@ -30,11 +30,13 @@ import com.example.appgym.R;
 import com.example.appgym.adapter.RecyclerAPIAdapter;
 import com.example.appgym.adapter.RecyclerDetailAdapter;
 import com.example.appgym.adapter.SpinnerAdapter;
+import com.example.appgym.control.MainActivity;
 import com.example.appgym.model.ClickListener;
 import com.example.appgym.model.Days;
 import com.example.appgym.model.Ejercicio;
 import com.example.appgym.model.EjercicioResponse;
 import com.example.appgym.model.RutinaDTO;
+import com.example.appgym.model.TypeAdapter;
 import com.example.appgym.persistencia.api.ApiClient;
 import com.example.appgym.persistencia.api.WgerApi;
 import com.example.appgym.repository.RutinaRepositoryImpl;
@@ -113,7 +115,7 @@ public class NewRoutineFragment extends BaseFragment {
     private void setDataRecycler(@NonNull View view) {
         recycler = view.findViewById(R.id.recycler);
         ejercicios = new ArrayList<>();
-        recyclerAdapter = new RecyclerDetailAdapter(ejercicios, false);
+        recyclerAdapter = new RecyclerDetailAdapter(ejercicios, TypeAdapter.Info);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recycler.setAdapter(recyclerAdapter);
     }
@@ -338,8 +340,9 @@ public class NewRoutineFragment extends BaseFragment {
         RutinaDTO rutina = new RutinaDTO(nombreRutina, ejercicios, day);
         rutinaRepository = new RutinaRepositoryImpl(requireContext());
         rutinaRepository.create(rutina);
-//        TODO: Esta forma de volver da fallo en destinationId
-        requireActivity().getSupportFragmentManager().popBackStack();
+//        De esta forma no da fallo en el Navigation de MainActivity
+        requireActivity().onBackPressed();
     }
+
 
 }

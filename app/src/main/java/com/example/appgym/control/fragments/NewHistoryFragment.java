@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.example.appgym.mappers.RutinaMapper;
 import com.example.appgym.model.Ejercicio;
 import com.example.appgym.model.Rutina;
 import com.example.appgym.model.RutinaDTO;
+import com.example.appgym.model.TypeAdapter;
 import com.example.appgym.repository.RutinaRepositoryImpl;
 
 import java.io.UnsupportedEncodingException;
@@ -34,7 +36,7 @@ public class NewHistoryFragment extends BaseFragment {
     private RecyclerDetailAdapter adapter;
     private RecyclerView recycler;
     private TextView textRutina;
-    private Button btnCreate;
+    private ImageView btnCreate;
     private Rutina rutina;
     private int title = R.string.title_new_history;
     private int menu = 0;
@@ -65,42 +67,43 @@ public class NewHistoryFragment extends BaseFragment {
         btnCreate = view.findViewById(R.id.btnCreate);
 
         btnCreate.setOnClickListener(view1 -> {
-            try {
                 createHistorial();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                Toast.makeText(requireContext(), "Error al guardar: " +
-                        e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-            }
         });
 
         setMenu(getString(title), menu);
         setData();
     }
 
-    private void createHistorial() throws UnsupportedEncodingException {
-        List<Ejercicio> ejercicios = adapter.getEjercicios();
-        for (Ejercicio ejercicio: ejercicios){
-            if (ejercicio.getNombre().isEmpty() ||
-                ejercicio.getSeries() < min ||
-                ejercicio.getRepeticiones().isEmpty() ||
-                ejercicio.getPeso().isEmpty()){
-                Toast.makeText(requireContext(), "Error, campos vacíos",
-                        Toast.LENGTH_SHORT).show();
-                return;
+    private void createHistorial(){
+        try {
+            List<Ejercicio> ejercicios = adapter.getEjercicios();
+            for (Ejercicio ejercicio: ejercicios){
+                if (ejercicio.getNombre().isEmpty() ||
+                        ejercicio.getSeries() < min ||
+                        ejercicio.getRepeticiones().isEmpty() ||
+                        ejercicio.getPeso().isEmpty()){
+                    Toast.makeText(requireContext(), "Error, campos vacíos",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
-        }
-        rutina.setEjercicios(ejercicios);
-//        RutinaDTO rutinaDTO = RutinaMapper.INSTANCE.toDTO(rutina);
+            rutina.setEjercicios(ejercicios);
 //        TODO: Implementar MapperStruct
-        rutinaRepository = new RutinaRepositoryImpl(requireContext());
-        rutinaRepository.createHistorial(rutina);
+            rutinaRepository = new RutinaRepositoryImpl(requireContext());
+            rutinaRepository.createHistorial(rutina);
+            requireActivity().onBackPressed();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Toast.makeText(requireContext(), "Error al guardar: " +
+                    e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void setData() {
         textRutina.setText(rutina.getNombre());
         List<Ejercicio> ejercicios = rutina.getEjercicios();
-        adapter = new RecyclerDetailAdapter(ejercicios, true, recycler);
+        adapter = new RecyclerDetailAdapter(ejercicios, TypeAdapter.Editable, recycler);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         recycler.setAdapter(adapter);
     }

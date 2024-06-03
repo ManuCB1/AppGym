@@ -7,11 +7,6 @@
         android:layout_height="wrap_content"
         android:title="@string/info" />
     <item
-        android:id="@+id/titleHistorial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/historial" />
-    <item
         android:id="@+id/titleRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

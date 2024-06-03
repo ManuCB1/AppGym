@@ -1,7 +1,12 @@
 package com.example.appgym.utils;
 
+import android.util.Log;
+
+import androidx.annotation.Nullable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -20,4 +25,31 @@ public class DateConverter {
         return fechaOrdenada;
     }
 
+    public static String getDateToday() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(new Date());
+    }
+
+    public static String getDateTimeToday() {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return formato.format(new Date());
+    }
+
+    public static String getDayOfWeek() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+    }
+
+    public static String getOrderDateTime(String date) {
+        String format = date;
+        try {
+            SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat formatoSalida = new SimpleDateFormat("d MMMM yyyy, HH:mm", new Locale("es", "ES"));
+
+            format = formatoSalida.format(formatoEntrada.parse(date));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return format;
+    }
 }

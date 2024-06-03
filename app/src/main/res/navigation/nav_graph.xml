@@ -33,6 +33,12 @@
         <action
             android:id="@+id/action_mainFragment_to_newHistoryFragment"
             app:destination="@id/newHistoryFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_infoHistorialFragment"
+            app:destination="@id/infoHistorialFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
     </fragment>
     <fragment
         android:id="@+id/webContentFragment"
@@ -56,6 +62,15 @@
         <action
             android:id="@+id/action_infoRoutineFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_infoRoutineFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoHistorialFragment"
+        android:name="com.example.appgym.control.fragments.DetailHistorialFragment"
+        android:label="@string/title_new_routine"
+        tools:layout="@layout/fragment_detail_historial" >
     </fragment>
     <fragment
         android:id="@+id/newRoutineFragment"
@@ -74,5 +89,14 @@
         android:name="com.example.appgym.control.fragments.DetailFragment"
         android:label="@string/title_detail_routine"
         tools:layout="@layout/fragment_detail" >
+    </fragment>
+    <fragment
+        android:id="@+id/historialFragment"
+        android:name="com.example.appgym.control.fragments.HistorialFragment"
+        android:label="@string/title_historial"
+        tools:layout="@layout/fragment_historial" >
+        <action
+            android:id="@+id/action_historialFragment_to_infoHistorialFragment"
+            app:destination="@id/infoHistorialFragment" />
     </fragment>
 </navigation>

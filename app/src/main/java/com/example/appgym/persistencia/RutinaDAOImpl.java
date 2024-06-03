@@ -187,7 +187,6 @@ public class RutinaDAOImpl implements RutinaDAO {
 
     @Override
     public void getHistorialByDate(String fechaActual, TaskCompleted<List<Rutina>> listener) {
-        Log.i("fecha", fechaActual);
         progressDialog.show();
         String url = Constantes.url_getHistorial_today+"?fecha=" + fechaActual +
                                                     "&username=" + sessionManager.getUsername();
@@ -198,7 +197,6 @@ public class RutinaDAOImpl implements RutinaDAO {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.i("response", response.toString());
                         listener.onTaskCompleted(parseJsonToHistorial(response));
                         progressDialog.dismiss();
                     }
@@ -206,7 +204,34 @@ public class RutinaDAOImpl implements RutinaDAO {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.i("error", error.getMessage().toString());
+                        Log.i("error", error.getMessage().toString()+"");
+                        progressDialog.dismiss();
+                    }
+                }
+        );
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void getHistorialByRutina(int id, TaskCompleted<List<Rutina>> listener) {
+        progressDialog.show();
+        String url = Constantes.url_getHistorialByRutina+"?id_rutina=" + id +
+                "&username=" + sessionManager.getUsername();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        listener.onTaskCompleted(parseJsonToHistorial(response));
+                        progressDialog.dismiss();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("error", error.getMessage().toString()+"");
                         progressDialog.dismiss();
                     }
                 }
@@ -259,6 +284,31 @@ public class RutinaDAOImpl implements RutinaDAO {
                     @Override
                     public void onResponse(JSONObject response) {
                         parseJsonToRoutine(response);
+                        progressDialog.dismiss();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, error.getMessage()+"", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void deleteHistorial(String fecha) {
+        progressDialog.show();
+        String url = Constantes.url_deleteHistorial + "?fecha=" + fecha + "&username=" + sessionManager.getUsername();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        parseJsonToHistorial(response);
                         progressDialog.dismiss();
                     }
                 },
@@ -325,7 +375,6 @@ public class RutinaDAOImpl implements RutinaDAO {
                             String fecha = rutinaActual.getString("fecha");
                             int id = rutinaActual.getInt("id_historial");
                             String nombre_rutina = rutinaActual.getString("nombre_rutina");
-                            String dia = "";
                             JSONArray ejercicios = rutinaActual.getJSONArray("ejercicios");
                             for (int j = 0; j < ejercicios.length(); j++) {
                                 JSONObject ejercicioActual = ejercicios.getJSONObject(j);
@@ -335,13 +384,14 @@ public class RutinaDAOImpl implements RutinaDAO {
                                 String repeticiones = ejercicioActual.getString("repeticiones");
 //                                String imagen = ejercicioActual.getString("imagen");
 
+//        TODO: Validar null
                                 Ejercicio ejercicio = new Ejercicio(nombreEjercicio, series, repeticiones, "");
                                 String peso = ejercicioActual.getString("peso");
                                 ejercicio.setPeso(peso);
 
                                 ejerciciosRutina.add(ejercicio);
                             }
-                            rutinasAll.add(new Rutina(id, nombre_rutina, ejerciciosRutina, dia));
+                            rutinasAll.add(new Rutina(id, nombre_rutina, ejerciciosRutina, fecha));
                         }
 //                    }
                 }

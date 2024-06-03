@@ -20,6 +20,7 @@ import com.example.appgym.adapter.RecyclerDetailAdapter;
 import com.example.appgym.adapter.SpinnerAdapter;
 import com.example.appgym.model.Days;
 import com.example.appgym.model.Rutina;
+import com.example.appgym.model.TypeAdapter;
 import com.example.appgym.repository.RutinaRepositoryImpl;
 
 import java.util.List;
@@ -59,7 +60,6 @@ public class DetailFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         titleRoutine = view.findViewById(R.id.titleRoutine);
-//        titleDay = view.findViewById(R.id.titleDay);
         recycler = view.findViewById(R.id.recycler);
         spinner = view.findViewById(R.id.spinner);
 
@@ -69,14 +69,13 @@ public class DetailFragment extends BaseFragment {
 
     private void setData() {
         titleRoutine.setText(rutina.getNombre());
-//        titleDay.setText(rutina.getDay());
 
 //        Spinner
         List<String> days = Days.getAll();
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireContext(), R.layout.spinner_item, days);
         spinner.setAdapter(spinnerAdapter);
         //Seleccionar el día de la rutina
-        int positionDefault = days.indexOf(rutina.getDay());
+        int positionDefault = days.indexOf(rutina.getDate());
         if (positionDefault != -1){
             spinner.setSelection(positionDefault);
         }
@@ -101,7 +100,7 @@ public class DetailFragment extends BaseFragment {
 
 //        Recycler
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
-        RecyclerDetailAdapter adapter = new RecyclerDetailAdapter(rutina.getEjercicios(), false);
+        RecyclerDetailAdapter adapter = new RecyclerDetailAdapter(rutina.getEjercicios(), TypeAdapter.Info);
         recycler.setAdapter(adapter);
     }
 

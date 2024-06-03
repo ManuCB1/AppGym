@@ -8,15 +8,20 @@
     <string name="title_chat">Chat</string>
     <string name="title_info_routine">Info Rutina</string>
     <string name="title_detail_routine">Detalles Rutina</string>
+    <string name="title_detail_historial">Detalles Historial</string>
+    <string name="title_historial">Historial</string>
     <string name="title_new_routine">Nueva Rutina</string>
     <string name="title_new_history">Nuevo Entreno</string>
     <string name="log_in">Log In</string>
     <string name="sign_uo">Sign Up</string>
     <!--    Menu-->
     <string name="info">Información</string>
+    <string name="historial">Historial</string>
     <string name="remove">Eliminar</string>
     <string name="save_historial">Guardar Entreno</string>
     <!--    Texts-->
+    <string name="text_routine">Rutinas</string>
+    <string name="text_historial">Entrenamientos</string>
     <string name="email">Email</string>
     <string name="height">Altura (cm)</string>
     <string name="weight">Peso (kg)</string>
@@ -27,6 +32,4 @@
     <string name="create_routine">Guardar Rutina</string>
     <string name="num_series">Nº Serie</string>
     <string name="repeticiones">Repeticiones</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

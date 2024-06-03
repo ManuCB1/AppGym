@@ -1,6 +1,7 @@
 package com.example.appgym.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appgym.R;
 import com.example.appgym.model.Ejercicio;
+import com.example.appgym.model.TypeAdapter;
 import com.example.appgym.utils.Constantes;
 import com.squareup.picasso.Picasso;
 
@@ -25,7 +27,7 @@ import java.util.List;
 public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAdapter.ViewHolder> {
 
     private List<Ejercicio> mData;
-    private boolean isEditable;
+    private TypeAdapter typeAdapter;
     private ViewHolder viewHolder;
     private RecyclerView recycler;
     private int position;
@@ -38,13 +40,13 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
         this.position = position;
     }
 
-    public RecyclerDetailAdapter(List<Ejercicio> data, boolean isEditable) {
+    public RecyclerDetailAdapter(List<Ejercicio> data, TypeAdapter typeAdapter) {
         this.mData = data;
-        this.isEditable = isEditable;
+        this.typeAdapter = typeAdapter;
     }
-    public RecyclerDetailAdapter(List<Ejercicio> data, boolean isEditable, RecyclerView recycler) {
+    public RecyclerDetailAdapter(List<Ejercicio> data, TypeAdapter typeAdapter, RecyclerView recycler) {
         this.mData = data;
-        this.isEditable = isEditable;
+        this.typeAdapter = typeAdapter;
         this.recycler = recycler;
     }
     @Override
@@ -70,14 +72,27 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
         for (String repeticion : ejercicio.getRepeticiones().split(",")) {
             repeticiones.add(repeticion);
         }
-        if (isEditable){
+        Log.i("repes", ejercicio.getRepeticiones());
+        if (typeAdapter == TypeAdapter.Historial){
+            Log.i("pesos", ejercicio.getPeso());
+            List<String> pesos = new ArrayList<>();
+            for (String peso : ejercicio.getPeso().split(",")) {
+                pesos.add(peso);
+                Log.i("peso", peso);
+            }
+            RecyclerChildDetailHistorialAdapter childAdapter = new RecyclerChildDetailHistorialAdapter(series, repeticiones, pesos);
+            holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+            holder.recyclerChild.setHasFixedSize(true);
+            holder.recyclerChild.setAdapter(childAdapter);
+        }
+        if (typeAdapter == TypeAdapter.Editable){
             RecyclerChildDetailEditAdapter childAdapter = new RecyclerChildDetailEditAdapter(ejercicio, series, repeticiones);
             holder.setChildAdapter(childAdapter);
             holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
             holder.recyclerChild.setHasFixedSize(true);
             holder.recyclerChild.setAdapter(childAdapter);
         }
-        else {
+        if (typeAdapter == TypeAdapter.Info){
             RecyclerChildDetailAdapter childAdapter = new RecyclerChildDetailAdapter(series, repeticiones);
             holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
             holder.recyclerChild.setHasFixedSize(true);

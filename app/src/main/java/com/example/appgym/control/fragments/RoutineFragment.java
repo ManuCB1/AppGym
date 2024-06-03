@@ -90,7 +90,7 @@ public class RoutineFragment extends BaseFragment {
         for (String day: days){
             rutinasTemp = new ArrayList<>();
             for (Rutina rutina: rutinas){
-                if ( day.equals(rutina.getDay())){
+                if ( day.equals(rutina.getDate())){
                     rutinasTemp.add(rutina);
                 }
             }

@@ -45,7 +45,7 @@ public class RecyclerChildDetailEditAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public void onBindViewHolder(@NonNull RecyclerChildHolder holder, int position) {
         holder.textSeries.setText("Serie: "+series.get(position).toString());
-        holder.textRepeticiones.setHint("Repeticiones: "+repeticiones.get(position));
+        holder.textRepeticiones.setHint("Reps.: "+repeticiones.get(position));
         repeticiones.set(position, "");
         holder.textPeso.setHint("Peso: 0");
 

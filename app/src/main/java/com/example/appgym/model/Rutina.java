@@ -8,13 +8,13 @@ public class Rutina implements Serializable {
     private int id;
     private String nombre;
     private List<Ejercicio> ejercicios;
-    private String day;
+    private String date;
 
-    public Rutina(int id, String nombre, List<Ejercicio> ejercicios, String day) {
+    public Rutina(int id, String nombre, List<Ejercicio> ejercicios, String date) {
         this.id = id;
         this.nombre = nombre;
         this.ejercicios = ejercicios;
-        this.day = day;
+        this.date = date;
     }
 
     public int getId() {
@@ -37,12 +37,12 @@ public class Rutina implements Serializable {
         this.ejercicios = ejercicios;
     }
 
-    public String getDay() {
-        return day;
+    public String getDate() {
+        return date;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setDate(String date) {
+        this.date = date;
     }
 
 }

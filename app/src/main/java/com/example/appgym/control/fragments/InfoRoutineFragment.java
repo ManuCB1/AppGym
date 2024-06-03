@@ -23,6 +23,7 @@ import com.example.appgym.model.Rutina;
 import com.example.appgym.model.TaskCompleted;
 import com.example.appgym.repository.RutinaRepositoryImpl;
 import com.example.appgym.utils.Constantes;
+import com.example.appgym.utils.Utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -90,71 +91,35 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
 
     @Override
     public void selectedItem(int position, MenuItem item) {
+        String titleDialog = "Eliminar";
+        String messageDialog = "¿Borrar la rutina " + rutinas.get(position).getNombre()+ "?";
+
         if (item.getItemId() == R.id.titleInfo){
-            sendRoutine(position);
+            sendRoutine(position, R.id.action_infoRoutineFragment_to_detailFragment);
+        }
+        if (item.getItemId() == R.id.titleHistorial){
+            sendRoutine(position, R.id.action_infoRoutineFragment_to_historialFragment);
+            sendRoutine(position, R.id.action_infoRoutineFragment_to_historialFragment);
         }
         if (item.getItemId() == R.id.titleRemove){
-            showDialogDelete(position);
+            Utils.showDialogDelete(requireContext(), titleDialog, messageDialog,
+                    (dialogInterface, i) -> {
+                        rutinaRepository = new RutinaRepositoryImpl(requireContext());
+                        rutinaRepository.delete(rutinas.get(position).getId());
+                        try {
+                            getRutinas();
+                            adapter.notifyDataSetChanged();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        },null);
         }
     }
 
-    private void showDialogDelete(int position) {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Eliminar")
-                .setMessage("¿Borrar la rutina " + rutinas.get(position).getNombre()+ "?")
-                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                rutinaRepository = new RutinaRepositoryImpl(requireContext());
-                rutinaRepository.delete(rutinas.get(position).getId());
-                try {
-                    getRutinas();
-                    adapter.notifyDataSetChanged();
-                } catch (UnsupportedEncodingException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        })
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        })
-                .create()
-                .show();
-    }
-
-    private void sendRoutine(int position) {
+    private void sendRoutine(int position, int menu) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(argParam1, rutinas.get(position));
-        Navigation.findNavController(getView()).navigate(R.id.action_infoRoutineFragment_to_detailFragment, bundle);
+        Navigation.findNavController(getView()).navigate(menu, bundle);
     }
 
-//    private void infoMessage(int position) {
-//        Rutina rutina = rutinas.get(position);
-//        List<Ejercicio> ejercicios = rutina.getEjercicios();
-//        String message = "";
-//        for (Ejercicio ejercicio: ejercicios){
-//            message = message+"\nEjercicio: "+ejercicio.getNombre()+
-//                    "\nSeries"+ ejercicio.getSeries() +
-//                    "\nRepeticiones";
-//            for (String repeticion : ejercicio.getRepeticiones().split(",")) {
-//                message = message + "\n" + repeticion;
-//            }
-//
-//        }
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//        builder.setTitle("Información")
-//                .setMessage("Nombre Rutina"+ rutina.getNombre()
-//                            + "\nEjercicios" + message
-//                )
-//                .setPositiveButton("Aceptar", (dialog, i) -> {
-//                    dialog.dismiss();
-//                })
-//                .create()
-//                .show();
-//    }
 }

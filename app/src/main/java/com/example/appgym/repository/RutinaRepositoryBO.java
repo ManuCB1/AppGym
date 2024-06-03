@@ -9,11 +9,12 @@ import java.util.List;
 
 public interface RutinaRepositoryBO {
     public void getAll(TaskCompleted<List<Rutina>> task) throws UnsupportedEncodingException;
-    public Rutina getByName(String name);
     public void getByDay(String day, TaskCompleted<List<Rutina>> listener);
     public void getHistorialByDate(String fechaActual, TaskCompleted<List<Rutina>> listener);
+    public void getHistorialByRutina(int id, TaskCompleted<List<Rutina>> listener);
     public void create(RutinaDTO rutina) throws UnsupportedEncodingException;
     public void createHistorial(Rutina rutina) throws UnsupportedEncodingException;
     public void putDay(String day, int id);
     public void delete(int id);
+    public void deleteHistorial(String fecha);
 }

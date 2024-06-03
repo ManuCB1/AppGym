@@ -10,8 +10,10 @@ public interface RutinaDAO {
     public void getAll(TaskCompleted<List<Rutina>> listener);
     public void getByDay(String day, TaskCompleted<List<Rutina>> listener);
     public void getHistorialByDate(String fechaActual, TaskCompleted<List<Rutina>> listener);
+    public void getHistorialByRutina(int id, TaskCompleted<List<Rutina>> listener);
     public void create(RutinaDTO rutina);
     public void createHistorial(Rutina rutina);
     public void putDay(String day, int id);
     public void delete(int id);
+    public void deleteHistorial(String fecha);
 }

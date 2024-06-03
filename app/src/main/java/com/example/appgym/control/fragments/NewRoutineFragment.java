@@ -113,7 +113,7 @@ public class NewRoutineFragment extends BaseFragment {
     private void setDataRecycler(@NonNull View view) {
         recycler = view.findViewById(R.id.recycler);
         ejercicios = new ArrayList<>();
-        recyclerAdapter = new RecyclerDetailAdapter(ejercicios);
+        recyclerAdapter = new RecyclerDetailAdapter(ejercicios, false);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recycler.setAdapter(recyclerAdapter);
     }
@@ -338,6 +338,7 @@ public class NewRoutineFragment extends BaseFragment {
         RutinaDTO rutina = new RutinaDTO(nombreRutina, ejercicios, day);
         rutinaRepository = new RutinaRepositoryImpl(requireContext());
         rutinaRepository.create(rutina);
+//        TODO: Esta forma de volver da fallo en destinationId
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 

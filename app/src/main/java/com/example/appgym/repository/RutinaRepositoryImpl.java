@@ -82,6 +82,11 @@ public class RutinaRepositoryImpl implements RutinaRepositoryBO{
     }
 
     @Override
+    public void createHistorial(Rutina rutina) throws UnsupportedEncodingException {
+        rutinaDAO.createHistorial(rutina);
+    }
+
+    @Override
     public void putDay(String day, int id) {
         rutinaDAO.putDay(day, id);
     }
@@ -94,6 +99,11 @@ public class RutinaRepositoryImpl implements RutinaRepositoryBO{
     @Override
     public void getByDay(String day, TaskCompleted<List<Rutina>> listener) {
         rutinaDAO.getByDay(day, listener);
+    }
+
+    @Override
+    public void getHistorialByDate(String fechaActual, TaskCompleted<List<Rutina>> listener) {
+        rutinaDAO.getHistorialByDate(fechaActual, listener);
     }
 
     @Override

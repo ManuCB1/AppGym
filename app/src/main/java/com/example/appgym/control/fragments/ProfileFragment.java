@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.appgym.R;
 import com.example.appgym.control.LoginActivity;
-import com.example.appgym.session.SessionManager;
+import com.example.appgym.utils.SessionManager;
 
 public class ProfileFragment extends BaseFragment {
     private TextView username, userEmail, userHeight, userWeight;

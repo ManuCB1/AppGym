@@ -1,8 +1,6 @@
 package com.example.appgym.adapter;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +24,10 @@ import java.util.List;
 
 public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAdapter.ViewHolder> {
 
-    private List<Ejercicio> mData = new ArrayList<>();
-//    private LayoutInflater mInflater;
-//    private ItemClickListener mClickListener;
+    private List<Ejercicio> mData;
+    private boolean isEditable;
+    private ViewHolder viewHolder;
+    private RecyclerView recycler;
     private int position;
 
     public int getPosition() {
@@ -39,15 +38,22 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
         this.position = position;
     }
 
-    public RecyclerDetailAdapter(List<Ejercicio> data) {
+    public RecyclerDetailAdapter(List<Ejercicio> data, boolean isEditable) {
         this.mData = data;
+        this.isEditable = isEditable;
     }
-
+    public RecyclerDetailAdapter(List<Ejercicio> data, boolean isEditable, RecyclerView recycler) {
+        this.mData = data;
+        this.isEditable = isEditable;
+        this.recycler = recycler;
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_detail_item, parent, false);
-        return new ViewHolder(view);
+        viewHolder = new ViewHolder(view);
+        return viewHolder;
     }
+
 
 
 
@@ -57,18 +63,26 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
         holder.titleText.setText(ejercicio.getNombre());
 
         List<Integer> series = new ArrayList<>();
-        List<String> repeticiones = new ArrayList<>();
         for (int i = 1; i<=ejercicio.getSeries(); i++){
             series.add(i);
         }
+        List<String> repeticiones = new ArrayList<>();
         for (String repeticion : ejercicio.getRepeticiones().split(",")) {
-                repeticiones.add(repeticion);
-            }
-
-        RecyclerChildDetailAdapter childAdapter = new RecyclerChildDetailAdapter(series, repeticiones);
-        holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        holder.recyclerChild.setHasFixedSize(true);
-        holder.recyclerChild.setAdapter(childAdapter);
+            repeticiones.add(repeticion);
+        }
+        if (isEditable){
+            RecyclerChildDetailEditAdapter childAdapter = new RecyclerChildDetailEditAdapter(ejercicio, series, repeticiones);
+            holder.setChildAdapter(childAdapter);
+            holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+            holder.recyclerChild.setHasFixedSize(true);
+            holder.recyclerChild.setAdapter(childAdapter);
+        }
+        else {
+            RecyclerChildDetailAdapter childAdapter = new RecyclerChildDetailAdapter(series, repeticiones);
+            holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+            holder.recyclerChild.setHasFixedSize(true);
+            holder.recyclerChild.setAdapter(childAdapter);
+        }
 
         if (ejercicio.getImagen().isEmpty() || ejercicio.getImagen() == null){
             holder.image_info.setVisibility(View.GONE);
@@ -111,10 +125,11 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
     private LinearLayout linearLayout;
+    private RecyclerView recyclerChild;
     private RelativeLayout expandableLayout;
+    private RecyclerChildDetailEditAdapter childAdapter;
     private TextView titleText;
     private ImageView image_info;
-    private RecyclerView recyclerChild;
 
     ViewHolder(View itemView) {
         super(itemView);
@@ -135,25 +150,29 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreate
 //        inflater.inflate(R.menu.menu_contextual, menu);
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        if (mClickListener != null){
-//            mClickListener.onItemClick(view, getAdapterPosition());
-//
-//        }
-//    }
+    public void setChildAdapter(RecyclerChildDetailEditAdapter adapter) {
+        this.childAdapter = adapter;
+    }
+
+    public RecyclerChildDetailEditAdapter getChildAdapter() {
+        return childAdapter;
+    }
+
 }
 
     String getItem(int id){
         return mData.get(id).toString();
     }
 
-//    void setClickListener(ItemClickListener itemClickListener){
-//        this.mClickListener = itemClickListener;
-//    }
-//
-//    public interface ItemClickListener{
-//        void onItemClick(View activista, int position);
-//    }
+    public List<Ejercicio> getEjercicios() {
+        List<Ejercicio> ejercicios = new ArrayList<>();
+        for (int i = 0; i < getItemCount(); i++) {
+            ViewHolder holder = (ViewHolder) recycler.findViewHolderForAdapterPosition(i);
+            if (holder != null && holder.getChildAdapter() != null) {
+                ejercicios.add(holder.getChildAdapter().getEjercicio());
+            }
+        }
+        return ejercicios;
+    }
 }
 

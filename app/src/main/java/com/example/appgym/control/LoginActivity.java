@@ -11,7 +11,7 @@ import com.example.appgym.R;
 import com.example.appgym.model.TaskCompleted;
 import com.example.appgym.model.User;
 import com.example.appgym.repository.UserRepositoryImpl;
-import com.example.appgym.session.SessionManager;
+import com.example.appgym.utils.SessionManager;
 
 public class LoginActivity extends AppCompatActivity {
 

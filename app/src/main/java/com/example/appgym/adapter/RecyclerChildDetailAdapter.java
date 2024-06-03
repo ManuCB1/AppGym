@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appgym.R;
+import com.example.appgym.model.Ejercicio;
 import com.example.appgym.model.Rutina;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.appgym.session;
+package com.example.appgym.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

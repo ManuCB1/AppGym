@@ -51,6 +51,8 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:1.12.0")
 //    Cargar imagenes URL
     implementation ("com.squareup.picasso:picasso:2.71828")
+//    Mappers
+    implementation ("org.mapstruct:mapstruct:1.4.2.Final")
 
 
 

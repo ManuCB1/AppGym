@@ -38,7 +38,6 @@ public class DetailFragment extends BaseFragment {
     private static final String argParam1 = "rutina";
 
     public DetailFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -102,7 +101,7 @@ public class DetailFragment extends BaseFragment {
 
 //        Recycler
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
-        RecyclerDetailAdapter adapter = new RecyclerDetailAdapter(rutina.getEjercicios());
+        RecyclerDetailAdapter adapter = new RecyclerDetailAdapter(rutina.getEjercicios(), false);
         recycler.setAdapter(adapter);
     }
 

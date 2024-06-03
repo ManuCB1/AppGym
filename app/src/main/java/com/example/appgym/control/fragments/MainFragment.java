@@ -34,13 +34,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainFragment extends BaseFragment implements PopupListener {
+public class MainFragment extends BaseFragment {
 
     private TextView textDate, textDay;
     private RutinaRepositoryImpl rutinaRepository;
     private RecyclerView recycler;
+    private RecyclerView recyclerHistorial;
     private RecyclerInfoRoutineAdapter adapter;
+    private RecyclerInfoRoutineAdapter adapterHistorial;
     private List<Rutina> rutinas;
+    private List<Rutina> historiales;
     private static final String argParam1 = "rutina";
     private int title = R.string.title_home;
     private int menu = 0;
@@ -66,7 +69,9 @@ public class MainFragment extends BaseFragment implements PopupListener {
         textDate = view.findViewById(R.id.textFecha);
         textDay = view.findViewById(R.id.textDay);
         recycler = view.findViewById(R.id.recycler);
+        recyclerHistorial = view.findViewById(R.id.recyclerHistorial);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerHistorial.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         textDate.setOnClickListener(v -> showCalendar(requireContext()));
 
@@ -86,15 +91,16 @@ public class MainFragment extends BaseFragment implements PopupListener {
         int dia = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog dialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
 
                 Date fechaSeleccionada = calendar.getTime();
+                String fechaActual = String.format("%04d-%02d-%02d", year, month+1, day);
                 String today = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
                 setTexts(fechaSeleccionada);
-                loadRecycler(today);
+                loadRecycler(today, fechaActual);
             }
         }, año, mes, dia);
         dialog.show();
@@ -108,11 +114,17 @@ public class MainFragment extends BaseFragment implements PopupListener {
         Calendar calendar = Calendar.getInstance();
         String today = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
         setTexts(date);
-        loadRecycler(today);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String fechaActual = String.format("%04d-%02d-%02d", year, month, day);
+        loadRecycler(today, fechaActual);
     }
 
-    private void loadRecycler(String day) {
+    private void loadRecycler(String day, String fechaActual) {
         rutinas = new ArrayList<>();
+        historiales = new ArrayList<>();
         rutinaRepository = new RutinaRepositoryImpl(requireContext());
         rutinaRepository.getByDay(day, new TaskCompleted<List<Rutina>>() {
             @Override
@@ -120,8 +132,32 @@ public class MainFragment extends BaseFragment implements PopupListener {
                 if ( s != null){
                     rutinas.addAll(s);
                 }
-                adapter = new RecyclerInfoRoutineAdapter(rutinas, Constantes.menuHistorial, MainFragment.this);
+                adapter = new RecyclerInfoRoutineAdapter(rutinas, Constantes.menuHistorial,
+                        (int position, MenuItem item) -> {
+                    if (item.getItemId() == R.id.titleInfo){
+                        sendRoutine(position, R.id.action_mainFragment_to_detailFragment);
+                    }
+                    if (item.getItemId() == R.id.titleHistorial){
+                        sendRoutine(position, R.id.action_mainFragment_to_newHistoryFragment);
+                    }
+                });
                 recycler.setAdapter(adapter);
+            }
+        });
+        rutinaRepository.getHistorialByDate(fechaActual, new TaskCompleted<List<Rutina>>() {
+            @Override
+            public void onTaskCompleted(List<Rutina> s) {
+                if ( s != null){
+                    historiales.addAll(s);
+                }
+//                TODO: Meter Información Historial
+//                TODO: Meter Eliminar Historial
+//                TODO: Meter Historial en menu normal
+                adapterHistorial = new RecyclerInfoRoutineAdapter(historiales, Constantes.menuHistorial,
+                        (int position, MenuItem item) -> {
+
+                });
+                recyclerHistorial.setAdapter(adapterHistorial);
             }
         });
 
@@ -139,19 +175,9 @@ public class MainFragment extends BaseFragment implements PopupListener {
         textDay.setText(diaSemana);
     }
 
-    @Override
-    public void selectedItem(int position, MenuItem item) {
-        if (item.getItemId() == R.id.titleInfo){
-            sendRoutine(position);
-        }
-        if (item.getItemId() == R.id.titleHistorial){
-
-        }
-    }
-
-    private void sendRoutine(int position) {
+    private void sendRoutine(int position, int action) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(argParam1, rutinas.get(position));
-        Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment_to_detailFragment, bundle);
+        Navigation.findNavController(requireView()).navigate(action, bundle);
     }
 }

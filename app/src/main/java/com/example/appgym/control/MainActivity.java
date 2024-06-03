@@ -2,15 +2,10 @@ package com.example.appgym.control;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,12 +15,10 @@ import com.example.appgym.R;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.appgym.session.SessionManager;
+import com.example.appgym.utils.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,18 +79,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
                 int destinationId = navDestination.getId();
-                if (destinationId == R.id.infoRoutineFragment) {
+                if (destinationId == R.id.infoRoutineFragment ||
+                    destinationId == R.id.newRoutineFragment ||
+                    destinationId == R.id.action_infoRoutineFragment_to_detailFragment) {
                     bottomNavigationView.getMenu().findItem(R.id.routineFragment).setChecked(true);
                 }
-                if (destinationId == R.id.newRoutineFragment) {
-                    bottomNavigationView.getMenu().findItem(R.id.routineFragment).setChecked(true);
-                }
-                if (destinationId == R.id.action_infoRoutineFragment_to_detailFragment) {
-                    bottomNavigationView.getMenu().findItem(R.id.routineFragment).setChecked(true);
-                }
-                if (destinationId == R.id.action_mainFragment_to_detailFragment) {
+                if (destinationId == R.id.action_mainFragment_to_detailFragment ||
+                    destinationId == R.id.action_mainFragment_to_newHistoryFragment) {
                     bottomNavigationView.getMenu().findItem(R.id.mainFragment).setChecked(true);
                 }
+//                TODO: los action no hacen checked
 
                 setArrowBack(destinationId);
             }

@@ -104,10 +104,10 @@ public class RoutineFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()== R.id.itemInfo){
-            Navigation.findNavController(getView()).navigate(R.id.action_routineFragment_to_infoRoutineFragment);
+            Navigation.findNavController(requireView()).navigate(R.id.action_routineFragment_to_infoRoutineFragment);
         }
         if (item.getItemId()== R.id.itemNew){
-            Navigation.findNavController(getView()).navigate(R.id.action_routineFragment_to_newRoutineFragment);
+            Navigation.findNavController(requireView()).navigate(R.id.action_routineFragment_to_newRoutineFragment);
         }
         return false;
     }

@@ -7,6 +7,7 @@ public class Ejercicio {
     private String nombre;
     private int series;
     private String repeticiones;
+    private String peso;
     private String imagen;
 
     public Ejercicio(String nombre, int series, String repeticiones, String imagen) {
@@ -46,6 +47,14 @@ public class Ejercicio {
 
     public void setRepeticiones(String repeticiones) {
         this.repeticiones = repeticiones;
+    }
+
+    public String getPeso() {
+        return peso;
+    }
+
+    public void setPeso(String peso) {
+        this.peso = peso;
     }
 
     public String getImagen() {

@@ -11,7 +11,9 @@ public class Constantes {
     public static final String url_signup = URL + "signup.php";
     public static final String url_getRutinas = URL + "get_rutinas.php";
     public static final String url_getRutinas_today = URL + "get_rutinas_today.php";
+    public static final String url_getHistorial_today = URL + "get_historial_today.php";
     public static final String url_createRutina = URL + "create_rutina.php";
+    public static final String url_createHistorial = URL + "create_historial.php";
     public static final String url_putDayRoutine = URL + "change_day.php";
     public static final String url_deleteRoutine = URL + "delete_rutina.php";
     public static final String url_upload_image = URL + "upload_image.php";

@@ -345,14 +345,18 @@ public class RutinaDAOImpl implements RutinaDAO {
                             String nombreEjercicio = ejercicioActual.getString("nombre_ejercicio");
                             int series = ejercicioActual.getInt("series");
                             String repeticiones = ejercicioActual.getString("repeticiones");
-//                            String imagen = ejercicioActual.getString("imagen");
-
-                            ejerciciosRutina.add(new Ejercicio(nombreEjercicio, series, repeticiones, ""));
+                            String imagen = ejercicioActual.getString("imagen");
+                            if (!ejercicioActual.has("imagen") || imagen == null){
+                                imagen = "";
+                            }
+                            ejerciciosRutina.add(new Ejercicio(nombreEjercicio, series, repeticiones, imagen));
                         }
                         rutinasAll.add(new Rutina(id, nombre_rutina, ejerciciosRutina, dia));
                     }
                 }
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -368,7 +372,7 @@ public class RutinaDAOImpl implements RutinaDAO {
 
                 if (response.has("historial_rutinas") && success.equals("true")) {
                     JSONArray rutinasHistorial = response.getJSONArray("historial_rutinas");
-//                    if (rutinasHistorial.length() > 0){
+                    if (rutinasHistorial.length() > 0){
                         for (int i = 0; i < rutinasHistorial.length(); i++) {
                             List<Ejercicio> ejerciciosRutina = new ArrayList<>();
                             JSONObject rutinaActual = rutinasHistorial.getJSONObject(i);
@@ -384,7 +388,6 @@ public class RutinaDAOImpl implements RutinaDAO {
                                 String repeticiones = ejercicioActual.getString("repeticiones");
 //                                String imagen = ejercicioActual.getString("imagen");
 
-//        TODO: Validar null
                                 Ejercicio ejercicio = new Ejercicio(nombreEjercicio, series, repeticiones, "");
                                 String peso = ejercicioActual.getString("peso");
                                 ejercicio.setPeso(peso);
@@ -393,9 +396,11 @@ public class RutinaDAOImpl implements RutinaDAO {
                             }
                             rutinasAll.add(new Rutina(id, nombre_rutina, ejerciciosRutina, fecha));
                         }
-//                    }
+                    }
                 }
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

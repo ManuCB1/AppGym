@@ -18,10 +18,8 @@ import android.widget.Toast;
 
 import com.example.appgym.R;
 import com.example.appgym.adapter.RecyclerDetailAdapter;
-import com.example.appgym.mappers.RutinaMapper;
 import com.example.appgym.model.Ejercicio;
 import com.example.appgym.model.Rutina;
-import com.example.appgym.model.RutinaDTO;
 import com.example.appgym.model.TypeAdapter;
 import com.example.appgym.repository.RutinaRepositoryImpl;
 
@@ -88,7 +86,6 @@ public class NewHistoryFragment extends BaseFragment {
                 }
             }
             rutina.setEjercicios(ejercicios);
-//        TODO: Implementar MapperStruct
             rutinaRepository = new RutinaRepositoryImpl(requireContext());
             rutinaRepository.createHistorial(rutina);
             requireActivity().onBackPressed();

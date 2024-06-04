@@ -57,13 +57,14 @@ public class HistorialFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         recycler = view.findViewById(R.id.recycler);
 
-        rutinaRepository = new RutinaRepositoryImpl(requireContext());
+        recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         setData();
         setMenu(getString(title), menu);
     }
 
     private void setData() {
-        recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rutinaRepository = new RutinaRepositoryImpl(requireContext());
+        historial = new ArrayList<>();
         rutinaRepository.getHistorialByRutina(rutina.getId(), new TaskCompleted<List<Rutina>>() {
             @Override
             public void onTaskCompleted(List<Rutina> s) {
@@ -75,7 +76,6 @@ public class HistorialFragment extends BaseFragment {
     }
 
     private void loadRecycler(List<Rutina> s) {
-        historial = new ArrayList<>();
         historial.addAll(s);
         historialAdapter = new RecyclerHistorialAdapter(historial);
         recycler.setAdapter(historialAdapter);
@@ -84,12 +84,13 @@ public class HistorialFragment extends BaseFragment {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int position = historialAdapter.getPosition();
-        String titleDialog = "Eliminar";
-        String messageDialog = "¿Borrar Historial " + historialAdapter.getItem(position).getNombre() + "?";
+
         if (item.getItemId() == R.id.titleInfo){
             sendRoutine(historialAdapter.getItem(position), R.id.action_historialFragment_to_infoHistorialFragment);
         }
         if (item.getItemId() == R.id.titleRemove){
+            String titleDialog = "Eliminar";
+            String messageDialog = "¿Borrar Historial " + historialAdapter.getItem(position).getNombre() + "?";
             Utils.showDialogDelete(requireContext(), titleDialog, messageDialog,
                     (dialogInterface, i) -> {
                         rutinaRepository.deleteHistorial(historialAdapter.getItem(position).getDate());

@@ -99,7 +99,6 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
         }
         if (item.getItemId() == R.id.titleHistorial){
             sendRoutine(position, R.id.action_infoRoutineFragment_to_historialFragment);
-            sendRoutine(position, R.id.action_infoRoutineFragment_to_historialFragment);
         }
         if (item.getItemId() == R.id.titleRemove){
             Utils.showDialogDelete(requireContext(), titleDialog, messageDialog,

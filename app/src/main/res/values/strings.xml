@@ -6,9 +6,9 @@
     <string name="title_home">Inicio</string>
     <string name="title_profile">Perfil</string>
     <string name="title_chat">Chat</string>
-    <string name="title_info_routine">Info Rutina</string>
+    <string name="title_info_routine">Rutinas</string>
     <string name="title_detail_routine">Detalles Rutina</string>
-    <string name="title_detail_historial">Detalles Historial</string>
+    <string name="title_detail_historial">Detalles Entrenamiento</string>
     <string name="title_historial">Historial</string>
     <string name="title_new_routine">Nueva Rutina</string>
     <string name="title_new_history">Nuevo Entreno</string>
@@ -16,7 +16,7 @@
     <string name="sign_uo">Sign Up</string>
     <!--    Menu-->
     <string name="info">Información</string>
-    <string name="historial">Historial</string>
+    <string name="historial">Entrenamientos</string>
     <string name="remove">Eliminar</string>
     <string name="save_historial">Guardar Entreno</string>
     <!--    Texts-->

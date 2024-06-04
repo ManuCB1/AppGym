@@ -51,8 +51,10 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:1.12.0")
 //    Cargar imagenes URL
     implementation ("com.squareup.picasso:picasso:2.71828")
-//    Mappers
-    implementation ("org.mapstruct:mapstruct:1.4.2.Final")
+//    API Youtube
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
 
 
 

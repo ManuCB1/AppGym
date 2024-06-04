@@ -6,20 +6,22 @@ import androidx.annotation.Nullable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class DateConverter {
 
-    public static String getOrderDate(String fecha){
+    public static String getOrderDate(String fecha) {
         SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat formatoSalida = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
         String fechaOrdenada = "";
         try {
             Date fechaDate = formatoEntrada.parse(fecha);
             fechaOrdenada = formatoSalida.format(fechaDate);
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return fechaOrdenada;
@@ -47,9 +49,27 @@ public class DateConverter {
             SimpleDateFormat formatoSalida = new SimpleDateFormat("d MMMM yyyy, HH:mm", new Locale("es", "ES"));
 
             format = formatoSalida.format(formatoEntrada.parse(date));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return format;
     }
+
+
+//    public static String getDateTime(String date) {
+//        SimpleDateFormat formatterEntrada = new SimpleDateFormat("d MMMM yyyy", new Locale("es"));
+//
+//        String fechaFormateada = "";
+//        try {
+//            Date fecha = formatterEntrada.parse(date);
+//
+//            SimpleDateFormat formatterSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//            fechaFormateada = formatterSalida.format(fecha);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return fechaFormateada;
+//    }
 }

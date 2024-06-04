@@ -23,17 +23,7 @@ public class RecyclerRoutineAdapter extends RecyclerView.Adapter<RecyclerRoutine
 
     private List<DayRecycler> mData;
     private List<Rutina> rutinas = new ArrayList<>();
-    private LayoutInflater mInflater;
-//    private ItemClickListener mClickListener;
     private int position;
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
 
     public RecyclerRoutineAdapter(List<DayRecycler> data) {
         this.mData = data;
@@ -113,17 +103,12 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreate
     }
 
 }
+    public int getPosition() {
+        return position;
+    }
 
-//    String getItem(int id){
-//        return mData.get(id).toString();
-//    }
-
-//    void setClickListener(ItemClickListener itemClickListener){
-//        this.mClickListener = itemClickListener;
-//    }
-
-//    public interface ItemClickListener{
-//        void onItemClick(View activista, int position);
-//    }
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }
 

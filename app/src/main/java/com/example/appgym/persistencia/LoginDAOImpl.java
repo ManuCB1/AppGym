@@ -55,7 +55,6 @@ public class LoginDAOImpl implements LoginDAO {
                     @Override
                     public void onResponse(JSONObject response) {
                         User user = parseJsonToUser(response);
-                        Log.i("response", response.toString());
                         listener.onTaskCompleted(user);
                         progressDialog.dismiss();
                     }
@@ -63,7 +62,6 @@ public class LoginDAOImpl implements LoginDAO {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.i("error", error.getMessage().toString());
                         progressDialog.dismiss();
                     }
                 }

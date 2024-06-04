@@ -24,9 +24,10 @@ public class Constantes {
     public static int menuInfoRoutine = R.menu.menu_context_info_routine;
     public static int menuRoutine = R.menu.menu_context_routine;
     public static int menuHistorial = R.menu.menu_context_historial;
-//    public static String apiKey = "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";
-//    public static String apiKeyHugging = "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";
-    public static String apiKeyGemini = "AIzaSyDPGbnJRs9kAhjQV3OanyB5XergB53cvKI";
+//    public static String apiKeyOpenAi = "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";
+    public static String apiKeyHugging = "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";
+//    public static String apiKeyGemini = "AIzaSyDPGbnJRs9kAhjQV3OanyB5XergB53cvKI";
 
     public static String url_imagenAPI = "https://wger.de";
+    public static String apiKeyYoutube = "AIzaSyAp7PxpFTMMuiOazcv_m2DNuO1xKgA8hjk";
 }

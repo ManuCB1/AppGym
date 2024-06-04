@@ -58,7 +58,6 @@ public class ProfileFragment extends BaseFragment {
     }
 
     private void loadData() {
-        //TODO: Coger datos de BD y guardarlos antes de setearlos.
         username.setText(sessionManager.getUsername());
         userEmail.setText(sessionManager.getEmail());
         userHeight.setText(String.valueOf(sessionManager.getHeight()));

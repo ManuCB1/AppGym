@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:hint="@string/weight"
-            android:inputType="text" />
+            android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:hint="@string/height"
-            android:inputType="text" />
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

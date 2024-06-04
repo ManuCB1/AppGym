@@ -72,13 +72,10 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
         for (String repeticion : ejercicio.getRepeticiones().split(",")) {
             repeticiones.add(repeticion);
         }
-        Log.i("repes", ejercicio.getRepeticiones());
         if (typeAdapter == TypeAdapter.Historial){
-            Log.i("pesos", ejercicio.getPeso());
             List<String> pesos = new ArrayList<>();
             for (String peso : ejercicio.getPeso().split(",")) {
                 pesos.add(peso);
-                Log.i("peso", peso);
             }
             RecyclerChildDetailHistorialAdapter childAdapter = new RecyclerChildDetailHistorialAdapter(series, repeticiones, pesos);
             holder.recyclerChild.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
@@ -103,6 +100,7 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
             holder.image_info.setVisibility(View.GONE);
         }
         else {
+            Log.i("imagen", ejercicio.getImagen());
             holder.image_info.setOnClickListener(view -> {
                 setPosition(holder.getAdapterPosition());
                 showDialogImage(view.getContext(), ejercicio.getImagen());

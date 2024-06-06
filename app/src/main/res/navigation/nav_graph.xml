@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/sharedFragment"
+        android:name="com.example.appgym.control.fragments.ChatFragment"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_chat"/>
+    <fragment
+        android:id="@+id/routineFragment"
+        android:name="com.example.appgym.control.fragments.RoutineFragment"
+        android:label="@string/title_routine"
+        tools:layout="@layout/fragment_routine">
+        <action
+            android:id="@+id/action_routineFragment_to_infoRoutineFragment"
+            app:destination="@id/infoRoutineFragment" />
+        <action
+            android:id="@+id/action_routineFragment_to_newRoutineFragment"
+            app:destination="@id/newRoutineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.appgym.control.fragments.MainFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_newHistoryFragment"
+            app:destination="@id/newHistoryFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_infoHistorialFragment"
+            app:destination="@id/infoHistorialFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webContentFragment"
+        android:name="com.example.appgym.control.fragments.WebContentFragment"
+        android:label="@string/title_web_content"
+        tools:layout="@layout/fragment_web_content"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.appgym.control.fragments.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile"/>
+
+
+
+
+    <fragment
+        android:id="@+id/infoRoutineFragment"
+        android:name="com.example.appgym.control.fragments.InfoRoutineFragment"
+        android:label="@string/title_info_routine"
+        tools:layout="@layout/fragment_info_routine">
+        <action
+            android:id="@+id/action_infoRoutineFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_infoRoutineFragment_to_historialFragment"
+            app:destination="@id/historialFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoHistorialFragment"
+        android:name="com.example.appgym.control.fragments.DetailHistorialFragment"
+        android:label="@string/title_new_routine"
+        tools:layout="@layout/fragment_detail_historial" >
+    </fragment>
+    <fragment
+        android:id="@+id/newRoutineFragment"
+        android:name="com.example.appgym.control.fragments.NewRoutineFragment"
+        android:label="@string/title_new_routine"
+        tools:layout="@layout/fragment_new_routine" >
+    </fragment>
+    <fragment
+        android:id="@+id/newHistoryFragment"
+        android:name="com.example.appgym.control.fragments.NewHistoryFragment"
+        android:label="@string/title_new_history"
+        tools:layout="@layout/fragment_new_history" >
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.appgym.control.fragments.DetailFragment"
+        android:label="@string/title_detail_routine"
+        tools:layout="@layout/fragment_detail" >
+    </fragment>
+    <fragment
+        android:id="@+id/historialFragment"
+        android:name="com.example.appgym.control.fragments.HistorialFragment"
+        android:label="@string/title_historial"
+        tools:layout="@layout/fragment_historial" >
+        <action
+            android:id="@+id/action_historialFragment_to_infoHistorialFragment"
+            app:destination="@id/infoHistorialFragment" />
+    </fragment>
+</navigation>

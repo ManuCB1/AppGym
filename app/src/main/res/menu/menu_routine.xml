@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/itemNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/title_new_routine"
+        android:icon="@drawable/add"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/itemInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/info"
+        android:icon="@drawable/info"
+        app:showAsAction="always"/>
+</menu>

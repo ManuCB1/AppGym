@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:padding="8dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+  <LinearLayout
+      android:id="@+id/layoutLeft"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/chat_received"
+      android:padding="8dp"
+      android:layout_marginEnd="80dp">
+    <TextView
+        android:id="@+id/textLeftMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        tools:text="@tools:sample/lorem"
+        android:textSize="16dp"/>
+  </LinearLayout>
+
+  <LinearLayout
+      android:id="@+id/layoutRight"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/chat_send"
+      android:padding="8dp"
+      android:layout_marginStart="80dp"
+      android:layout_alignParentEnd="true">
+    <TextView
+        android:id="@+id/textRightMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        tools:text="@tools:sample/lorem"
+        android:textSize="16dp"/>
+  </LinearLayout>
+</RelativeLayout>

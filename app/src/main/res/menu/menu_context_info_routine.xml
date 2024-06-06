@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/titleInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/info" />
+    <item
+        android:id="@+id/titleHistorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/historial" />
+    <item
+        android:id="@+id/titleRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="@string/remove" />
+</menu>

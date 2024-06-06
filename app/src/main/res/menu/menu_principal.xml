@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/sharedFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/comentario"
+        android:title="@string/title_chat" />
+    <item
+        android:id="@+id/routineFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/rutina"
+        android:title="@string/title_routine" />
+    <item
+        android:id="@+id/mainFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/inicio"
+        android:title="@string/title_home" />
+    <item
+        android:id="@+id/webContentFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/contenido"
+        android:title="@string/title_web_content" />
+    <item
+        android:id="@+id/profileFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/perfil"
+        android:title="@string/title_profile" />
+</menu>

@@ -37,7 +37,6 @@ public class RoutineFragment extends BaseFragment {
     private int menu = R.menu.menu_routine;
 
     public RoutineFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -48,7 +47,6 @@ public class RoutineFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_routine, container, false);
     }
 
@@ -57,25 +55,24 @@ public class RoutineFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView  = view.findViewById(R.id.recycler);
 
+        setMenu(getString(title), menu);
+        loadRutinas();
+    }
+
+    private void loadRutinas() {
         try {
-            loadRutinas();
+            rutinaRepository = new RutinaRepositoryImpl(requireContext());
+            rutinas = new ArrayList<>();
+            rutinaRepository.getAll(new TaskCompleted<List<Rutina>>() {
+                @Override
+                public void onTaskCompleted(List<Rutina> s) {
+                    rutinas.addAll(s);
+                    loadRecycler();
+                }
+            });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-        setMenu(getString(title), menu);
-    }
-
-    private void loadRutinas() throws UnsupportedEncodingException {
-        rutinaRepository = new RutinaRepositoryImpl(requireContext());
-        rutinas = new ArrayList<>();
-        rutinaRepository.getAll(new TaskCompleted<List<Rutina>>() {
-            @Override
-            public void onTaskCompleted(List<Rutina> s) {
-                rutinas.addAll(s);
-                loadRecycler();
-            }
-        });
     }
 
     private void loadRecycler() {

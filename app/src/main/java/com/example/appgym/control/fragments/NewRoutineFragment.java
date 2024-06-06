@@ -2,7 +2,6 @@ package com.example.appgym.control.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,7 +29,6 @@ import com.example.appgym.R;
 import com.example.appgym.adapter.RecyclerAPIAdapter;
 import com.example.appgym.adapter.RecyclerDetailAdapter;
 import com.example.appgym.adapter.SpinnerAdapter;
-import com.example.appgym.control.MainActivity;
 import com.example.appgym.model.ClickListener;
 import com.example.appgym.model.Days;
 import com.example.appgym.model.Ejercicio;
@@ -40,7 +38,6 @@ import com.example.appgym.model.TypeAdapter;
 import com.example.appgym.persistencia.api.ApiClient;
 import com.example.appgym.persistencia.api.WgerApi;
 import com.example.appgym.repository.RutinaRepositoryImpl;
-import com.example.appgym.utils.Validation;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -70,8 +67,8 @@ public class NewRoutineFragment extends BaseFragment {
     private List<String> days = Days.getAll();
     private int title = R.string.title_new_routine;
     private int menu = 0;
+
     public NewRoutineFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -82,7 +79,6 @@ public class NewRoutineFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_routine, container, false);
     }
 
@@ -94,6 +90,8 @@ public class NewRoutineFragment extends BaseFragment {
         btnNewEjercicio = view.findViewById(R.id.btnNewEjercicio);
         btnCreateRoutine = view.findViewById(R.id.btnCreateRoutine);
 
+        setMenu(getString(title), menu);
+
         setDataRecycler(view);
         setDataSpinner(view);
 
@@ -102,14 +100,9 @@ public class NewRoutineFragment extends BaseFragment {
         });
 
         btnCreateRoutine.setOnClickListener(v -> {
-            try {
-                createRoutine();
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+            createRoutine();
         });
 
-        setMenu(getString(title), menu);
     }
 
     private void setDataRecycler(@NonNull View view) {
@@ -210,6 +203,7 @@ public class NewRoutineFragment extends BaseFragment {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                 JsonElement jsonElement = response.body();
+                Log.i("response", response.toString());
                 if (jsonElement.isJsonObject()){
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
                     if (jsonObject.has("suggestions")){
@@ -227,12 +221,8 @@ public class NewRoutineFragment extends BaseFragment {
                             if (imageElement != null && !imageElement.isJsonNull()) {
                                 imagen = imageElement.getAsString();
                             }
-//                            JsonElement imageThumbnailElement = dataObject.get("image");
-//                            String imageThumbnail = null;
-//                            if (imageThumbnailElement != null && !imageThumbnailElement.isJsonNull()) {
-//                                imageThumbnail = imageThumbnailElement.getAsString();
-//                            }
                             ejerciciosResponse.add(new EjercicioResponse(nombre, categoria, imagen));
+                            Log.i("respuesta", ejerciciosResponse.size()+"");
                         }
                         recyclerAPIAdapter.notifyDataSetChanged();
                     }
@@ -241,7 +231,7 @@ public class NewRoutineFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-
+                Log.i("respuesta", t.getMessage().toString()+"");
             }
         });
     }
@@ -297,7 +287,7 @@ public class NewRoutineFragment extends BaseFragment {
     private void createEjercicio(LinearLayout contenedorTexts) {
         StringBuilder repeticiones = new StringBuilder();
         String nombreEjercicio = textEjercicio.getText().toString();
-        if (!Validation.validateName(nombreEjercicio)){
+        if (nombreEjercicio.trim().isEmpty()){
             Toast.makeText(getContext(), "Error, Nombre de Ejercicio Vacío", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -306,7 +296,7 @@ public class NewRoutineFragment extends BaseFragment {
         for (int j = 1; j < items; j++) {
             RelativeLayout fila = (RelativeLayout) contenedorTexts.getChildAt(j);
             TextView text = (TextView) fila.getChildAt(1);
-            if (!Validation.validateName(text.getText().toString())){
+            if (text.getText().toString().trim().isEmpty()){
                 Toast.makeText(getContext(), "Error, Repeticiones Vacías", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -326,23 +316,26 @@ public class NewRoutineFragment extends BaseFragment {
         recyclerAdapter.notifyDataSetChanged();
     }
 
-    private void createRoutine() throws UnsupportedEncodingException {
-        String nombreRutina = textRutina.getText().toString();
-        String day = (String) spinner.getSelectedItem();
-        if (!Validation.validateName(nombreRutina)){
-            Toast.makeText(requireContext(), "Nombre de Rutina Vacío", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (ejercicios.size()== 0){
-            Toast.makeText(requireContext(), "Mínimo 1 ejercicio", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        RutinaDTO rutina = new RutinaDTO(nombreRutina, ejercicios, day);
-        rutinaRepository = new RutinaRepositoryImpl(requireContext());
-        rutinaRepository.create(rutina);
+    private void createRoutine() {
+        try {
+            String nombreRutina = textRutina.getText().toString();
+            String day = (String) spinner.getSelectedItem();
+            if (nombreRutina.trim().isEmpty()){
+                Toast.makeText(requireContext(), "Nombre de Rutina Vacío", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (ejercicios.size()== 0){
+                Toast.makeText(requireContext(), "Mínimo 1 ejercicio", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            RutinaDTO rutina = new RutinaDTO(nombreRutina, ejercicios, day);
+            rutinaRepository = new RutinaRepositoryImpl(requireContext());
+            rutinaRepository.create(rutina);
 //        De esta forma no da fallo en el Navigation de MainActivity
-        requireActivity().onBackPressed();
+            requireActivity().onBackPressed();
+        }catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
-
 
 }

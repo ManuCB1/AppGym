@@ -16,19 +16,20 @@ import com.example.appgym.R;
 import com.example.appgym.adapter.RecyclerDetailAdapter;
 import com.example.appgym.model.Rutina;
 import com.example.appgym.model.TypeAdapter;
+import com.example.appgym.utils.Constantes;
 
 public class DetailHistorialFragment extends BaseFragment {
 
     private int title = R.string.title_detail_historial;
     private int menu = 0;
-    private static final String argParam1 = "rutina";
+    private static final String argParam1 = Constantes.ARG_RUTINA;
     private Rutina historial;
     private TextView titleHistorial;
     private RecyclerView recycler;
 
     public DetailHistorialFragment() {
-        // Required empty public constructor
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,6 @@ public class DetailHistorialFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail_historial, container, false);
     }
 
@@ -50,12 +50,12 @@ public class DetailHistorialFragment extends BaseFragment {
         titleHistorial = view.findViewById(R.id.titleHistorial);
         recycler = view.findViewById(R.id.recycler);
 
-//        Recycler
-        setData();
         setMenu(getString(title), menu);
+        setData();
     }
 
     private void setData() {
+//        Recycler
         titleHistorial.setText(historial.getNombre());
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
         RecyclerDetailAdapter adapter = new RecyclerDetailAdapter(historial.getEjercicios(), TypeAdapter.Historial);

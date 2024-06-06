@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +32,8 @@ public class WebContentFragment extends BaseFragment {
     private RecyclerView recycler;
     private int title = R.string.title_web_content;
     private int menu = 0;
+
     public WebContentFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -45,7 +44,6 @@ public class WebContentFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_web_content, container, false);
     }
 
@@ -62,12 +60,12 @@ public class WebContentFragment extends BaseFragment {
 
     private void setData(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.googleapis.com/")
+                .baseUrl(Constantes.URL_CONEXION_YOUTUBE_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         YouTubeApi youTubeApi = retrofit.create(YouTubeApi.class);
-        Call<YouTubeResponse> call = youTubeApi.getVideos("snippet", "gym workout", "video", Constantes.apiKeyYoutube);
+        Call<YouTubeResponse> call = youTubeApi.getVideos("snippet", "gym workout", "video", Constantes.API_KEY_YOUTUBE);
         call.enqueue(new Callback<YouTubeResponse>() {
             @Override
             public void onResponse(Call<YouTubeResponse> call, Response<YouTubeResponse> response) {
@@ -76,7 +74,7 @@ public class WebContentFragment extends BaseFragment {
                     for (YouTubeItem item : response.body().getItems()) {
                         String title = item.getSnippet().getTitle();
                         String videoId = item.getId().getVideoId();
-                        String link = "https://www.youtube.com/watch?v=" + videoId;
+                        String link = Constantes.URL_BASE_YOUTUBE + videoId;
                         String thumbnailUrl = item.getSnippet().getThumbnailUrl();
                         videos.add(new YoutubeVideo(title, link, thumbnailUrl));
                     }

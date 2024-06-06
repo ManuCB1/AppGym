@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,6 +21,7 @@ import com.example.appgym.model.Days;
 import com.example.appgym.model.Rutina;
 import com.example.appgym.model.TypeAdapter;
 import com.example.appgym.repository.RutinaRepositoryImpl;
+import com.example.appgym.utils.Constantes;
 
 import java.util.List;
 
@@ -30,13 +30,12 @@ public class DetailFragment extends BaseFragment {
     private RutinaRepositoryImpl rutinaRepository;
     private Rutina rutina;
     private RecyclerView recycler;
-    private TextView titleRoutine, titleDay;
-    private ImageView image_info;
+    private TextView titleRoutine;
     private Spinner spinner;
     private boolean isSpinnerInitialized = false;
     private int title = R.string.title_detail_routine;
     private int menu = 0;
-    private static final String argParam1 = "rutina";
+    private static final String argParam1 = Constantes.ARG_RUTINA;
 
     public DetailFragment() {
     }
@@ -52,7 +51,6 @@ public class DetailFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
 
@@ -63,8 +61,8 @@ public class DetailFragment extends BaseFragment {
         recycler = view.findViewById(R.id.recycler);
         spinner = view.findViewById(R.id.spinner);
 
-        setData();
         setMenu(getString(title), menu);
+        setData();
     }
 
     private void setData() {
@@ -74,7 +72,7 @@ public class DetailFragment extends BaseFragment {
         List<String> days = Days.getAll();
         SpinnerAdapter spinnerAdapter = new SpinnerAdapter(requireContext(), R.layout.spinner_item, days);
         spinner.setAdapter(spinnerAdapter);
-        //Seleccionar el día de la rutina
+//        Seleccionar el día de la rutina
         int positionDefault = days.indexOf(rutina.getDate());
         if (positionDefault != -1){
             spinner.setSelection(positionDefault);

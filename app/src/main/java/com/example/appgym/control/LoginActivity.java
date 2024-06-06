@@ -44,19 +44,21 @@ public class LoginActivity extends AppCompatActivity {
     private void login() {
         String username = textUsername.getText().toString();
         String password = textPassword.getText().toString();
-        UserRepositoryImpl userRepository= new UserRepositoryImpl(this);
-        userRepository.get(username, password, new TaskCompleted<User>() {
-            @Override
-            public void onTaskCompleted(User s) {
-                if (s != null){
-                    SessionManager sessionManager = new SessionManager(LoginActivity.this);
-                    if (sessionManager.createLoginSession(s)){
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+        if (username != null && password != null){
+            UserRepositoryImpl userRepository= new UserRepositoryImpl(this);
+            userRepository.get(username, password, new TaskCompleted<User>() {
+                @Override
+                public void onTaskCompleted(User s) {
+                    if (s != null){
+                        SessionManager sessionManager = new SessionManager(LoginActivity.this);
+                        if (sessionManager.createLoginSession(s)){
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 }

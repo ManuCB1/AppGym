@@ -2,7 +2,6 @@ package com.example.appgym.persistencia;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -11,19 +10,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.appgym.model.Ejercicio;
-import com.example.appgym.model.Rutina;
 import com.example.appgym.model.TaskCompleted;
 import com.example.appgym.model.User;
 import com.example.appgym.model.UserDTO;
 import com.example.appgym.utils.Constantes;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LoginDAOImpl implements LoginDAO {
     private Context context;
@@ -41,7 +34,7 @@ public class LoginDAOImpl implements LoginDAO {
     @Override
     public void get(String username, String password, TaskCompleted<User> listener) {
         progressDialog.show();
-        String url = Constantes.url_login;
+        String url = Constantes.URL_LOGIN;
         try {
             JSONObject userJson = new JSONObject();
             userJson.put("username", username);
@@ -75,7 +68,7 @@ public class LoginDAOImpl implements LoginDAO {
     @Override
     public void create(UserDTO user, TaskCompleted<Boolean> listener) {
         progressDialog.show();
-        String url = Constantes.url_signup;
+        String url = Constantes.URL_SIGNUP;
         try {
             JSONObject userJson = new JSONObject();
             userJson.put("username", user.getUsername());
@@ -104,7 +97,6 @@ public class LoginDAOImpl implements LoginDAO {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(context, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
                     }

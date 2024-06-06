@@ -1,7 +1,6 @@
 package com.example.appgym.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appgym.R;
-import com.example.appgym.model.DayRecycler;
 import com.example.appgym.model.Rutina;
 import com.example.appgym.utils.Constantes;
 import com.example.appgym.utils.DateConverter;
@@ -23,7 +21,7 @@ public class RecyclerHistorialAdapter extends RecyclerView.Adapter<RecyclerHisto
 
     private List<Rutina> mData;
     private int position;
-    private int menuLayout = Constantes.menuHistorial;
+    private int menuLayout = Constantes.MENU_HISTORIAL;
 
     public RecyclerHistorialAdapter(List<Rutina> data) {
         this.mData = data;
@@ -39,7 +37,6 @@ public class RecyclerHistorialAdapter extends RecyclerView.Adapter<RecyclerHisto
     public void onBindViewHolder(ViewHolder holder, int position) {
         Rutina rutina = mData.get(position);
         holder.textNombreR.setText(rutina.getNombre());
-//        holder.textContenidoR.setText(rutina.getContenido());
         holder.textFechaR.setText(DateConverter.getOrderDateTime(rutina.getDate()));
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -65,13 +62,11 @@ public class RecyclerHistorialAdapter extends RecyclerView.Adapter<RecyclerHisto
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
     TextView textNombreR;
-//    TextView textContenidoR;
     TextView textFechaR;
 
     ViewHolder(View itemView) {
         super(itemView);
         textNombreR = itemView.findViewById(R.id.textName);
-//        textContenidoR = itemView.findViewById(R.id.textContenidoR);
         textFechaR = itemView.findViewById(R.id.textDate);
         itemView.setOnCreateContextMenuListener(this);
     }

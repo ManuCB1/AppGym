@@ -2,17 +2,14 @@ package com.example.appgym.control.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +26,6 @@ import com.example.appgym.utils.Constantes;
 import com.example.appgym.utils.DateConverter;
 import com.example.appgym.utils.Utils;
 
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +43,7 @@ public class MainFragment extends BaseFragment {
     private RecyclerInfoRoutineAdapter adapterHistorial;
     private List<Rutina> rutinas;
     private List<Rutina> historiales;
-    private static final String argParam1 = "rutina";
+    private static final String argParam1 = Constantes.ARG_RUTINA;
     private int title = R.string.title_home;
     private int menu = 0;
 
@@ -111,8 +107,6 @@ public class MainFragment extends BaseFragment {
         dialog.show();
     }
 
-
-
     private void initDate() {
         long timestamp = System.currentTimeMillis();
         Date date = new Date(timestamp);
@@ -120,8 +114,6 @@ public class MainFragment extends BaseFragment {
 
         loadRecycler(DateConverter.getDayOfWeek(), DateConverter.getDateToday());
     }
-
-
 
     private void loadRecycler(String day, String fechaActual) {
         rutinas = new ArrayList<>();
@@ -196,7 +188,7 @@ public class MainFragment extends BaseFragment {
                 textRutina.setVisibility(View.INVISIBLE);
             }
         }
-        adapter = new RecyclerInfoRoutineAdapter(rutinas, Constantes.menuRoutine,
+        adapter = new RecyclerInfoRoutineAdapter(rutinas, Constantes.MENU_ROUTINE,
                 (int position, MenuItem item) -> {
                     menuSelected(position, item, false);
                 });
@@ -213,7 +205,7 @@ public class MainFragment extends BaseFragment {
                 textHistorial.setVisibility(View.INVISIBLE);
             }
         }
-        adapterHistorial = new RecyclerInfoRoutineAdapter(historiales, Constantes.menuHistorial,
+        adapterHistorial = new RecyclerInfoRoutineAdapter(historiales, Constantes.MENU_HISTORIAL,
                 (int position, MenuItem item) -> {
                     menuSelected(position, item, true);
                 });

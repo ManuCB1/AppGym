@@ -2,13 +2,11 @@ package com.example.appgym.adapter;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -113,7 +111,7 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.dialog_image, null);
         ImageView image = dialogView.findViewById(R.id.image_dialog);
-        String url = Constantes.url_imagenAPI +imagen;
+        String url = Constantes.URL_IMAGEN_API +imagen;
         Picasso.get().load(url).into(image);
 
         new AlertDialog.Builder(context)
@@ -135,11 +133,10 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
         return mData.size();
     }
 
-public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+public class ViewHolder extends RecyclerView.ViewHolder {
 
     private LinearLayout linearLayout;
     private RecyclerView recyclerChild;
-    private RelativeLayout expandableLayout;
     private RecyclerChildDetailEditAdapter childAdapter;
     private TextView titleText;
     private ImageView image_info;
@@ -147,20 +144,9 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreate
     ViewHolder(View itemView) {
         super(itemView);
         linearLayout = itemView.findViewById(R.id.linearLayout);
-        expandableLayout = itemView.findViewById(R.id.expandableLayout);
         titleText = itemView.findViewById(R.id.titleText);
         image_info = itemView.findViewById(R.id.image_info);
         recyclerChild = itemView.findViewById(R.id.recyclerChild);
-        itemView.setOnCreateContextMenuListener(this);
-    }
-
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("--Selecciona una opción--");
-//        Context context = v.getContext();
-//        MenuInflater inflater = new MenuInflater(context);
-//        inflater.inflate(R.menu.menu_contextual, menu);
     }
 
     public void setChildAdapter(RecyclerChildDetailEditAdapter adapter) {
@@ -172,10 +158,6 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreate
     }
 
 }
-
-    String getItem(int id){
-        return mData.get(id).toString();
-    }
 
     public List<Ejercicio> getEjercicios() {
         List<Ejercicio> ejercicios = new ArrayList<>();

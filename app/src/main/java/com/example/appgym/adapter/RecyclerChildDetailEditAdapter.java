@@ -2,20 +2,16 @@ package com.example.appgym.adapter;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appgym.R;
 import com.example.appgym.model.Ejercicio;
-import com.example.appgym.utils.Validation;
 
 import java.util.ArrayList;
 import java.util.List;

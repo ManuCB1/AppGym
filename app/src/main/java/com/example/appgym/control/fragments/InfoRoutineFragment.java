@@ -1,16 +1,13 @@
 package com.example.appgym.control.fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,10 +30,9 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
 
     private RecyclerView recycler;
     private RecyclerInfoRoutineAdapter adapter;
-    private List<Rutina> rutinasAll;
     private RutinaRepositoryImpl rutinaRepository;
     private List<Rutina> rutinas;
-    private static final String argParam1 = "rutina";
+    private static final String argParam1 = Constantes.ARG_RUTINA;
 
     private int title = R.string.title_info_routine;
     private int menu = 0;
@@ -51,7 +47,6 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_info_routine, container, false);
     }
 
@@ -62,30 +57,28 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
         recycler = view.findViewById(R.id.recyclerInfoRoutine);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
+        setMenu(getString(title), menu);
+        getRutinas();
+    }
+
+    private void getRutinas() {
         try {
-            getRutinas();
+            rutinaRepository = new RutinaRepositoryImpl(getContext());
+            rutinas = new ArrayList<>();
+            rutinaRepository.getAll(new TaskCompleted<List<Rutina>>() {
+                @Override
+                public void onTaskCompleted(List<Rutina> s) {
+                    rutinas.addAll(s);
+                    loadRecycler();
+                }
+            });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-        setMenu(getString(title), menu);
-
-    }
-
-    private void getRutinas() throws UnsupportedEncodingException {
-        rutinaRepository = new RutinaRepositoryImpl(getContext());
-        rutinas = new ArrayList<>();
-        rutinaRepository.getAll(new TaskCompleted<List<Rutina>>() {
-            @Override
-            public void onTaskCompleted(List<Rutina> s) {
-                rutinas.addAll(s);
-                loadRecycler();
-            }
-        });
     }
 
     private void loadRecycler() {
-        adapter = new RecyclerInfoRoutineAdapter(rutinas, Constantes.menuInfoRoutine, this);
+        adapter = new RecyclerInfoRoutineAdapter(rutinas, Constantes.MENU_INFO_ROUTINE, this);
         recycler.setAdapter(adapter);
     }
 
@@ -105,12 +98,8 @@ public class InfoRoutineFragment extends BaseFragment implements PopupListener {
                     (dialogInterface, i) -> {
                         rutinaRepository = new RutinaRepositoryImpl(requireContext());
                         rutinaRepository.delete(rutinas.get(position).getId());
-                        try {
-                            getRutinas();
-                            adapter.notifyDataSetChanged();
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
+                        getRutinas();
+                        adapter.notifyDataSetChanged();
                         },null);
         }
     }

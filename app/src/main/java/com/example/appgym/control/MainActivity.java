@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+//        Lo quedo comentado porque es interesante, recarga el fragment al seleccionar en la navegación
 //        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 //            int id = item.getItemId();
 //            navController.navigate(id);
@@ -97,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setArrowBack(int destinationId) {
-//        Compruebo si el menu está en nav_graph, si no está significa que es un submenu
+//        Compruebo si el menu está en nav_graph, si no está significa que es un submenu y activo
+//        la flecha hacia atrás
         boolean isSubMenu = false;
         for (int i = 0; i < bottomNavigationView.getMenu().size(); i++) {
             MenuItem menuItem = bottomNavigationView.getMenu().getItem(i);

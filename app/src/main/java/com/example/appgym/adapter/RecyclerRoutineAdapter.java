@@ -78,7 +78,7 @@ public class RecyclerRoutineAdapter extends RecyclerView.Adapter<RecyclerRoutine
         return mData.size();
     }
 
-public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+public class ViewHolder extends RecyclerView.ViewHolder {
 
     private LinearLayout linearLayout;
     private RelativeLayout expandableLayout;
@@ -93,13 +93,6 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreate
         titleText = itemView.findViewById(R.id.titleText);
         arrowImage = itemView.findViewById(R.id.arrowImage);
         recyclerChild = itemView.findViewById(R.id.recyclerChild);
-        itemView.setOnCreateContextMenuListener(this);
-    }
-
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("--Selecciona una opción--");
     }
 
 }

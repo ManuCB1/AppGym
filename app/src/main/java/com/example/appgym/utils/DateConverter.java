@@ -32,11 +32,6 @@ public class DateConverter {
         return sdf.format(new Date());
     }
 
-    public static String getDateTimeToday() {
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return formato.format(new Date());
-    }
-
     public static String getDayOfWeek() {
         Calendar calendar = Calendar.getInstance();
         return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
@@ -55,21 +50,4 @@ public class DateConverter {
         return format;
     }
 
-
-//    public static String getDateTime(String date) {
-//        SimpleDateFormat formatterEntrada = new SimpleDateFormat("d MMMM yyyy", new Locale("es"));
-//
-//        String fechaFormateada = "";
-//        try {
-//            Date fecha = formatterEntrada.parse(date);
-//
-//            SimpleDateFormat formatterSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//            fechaFormateada = formatterSalida.format(fecha);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return fechaFormateada;
-//    }
 }

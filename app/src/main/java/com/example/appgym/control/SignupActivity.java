@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.appgym.R;
 import com.example.appgym.model.TaskCompleted;
@@ -38,18 +39,27 @@ public class SignupActivity extends AppCompatActivity {
         String username = textUsername.getText().toString();
         String password = textPassword.getText().toString();
         String email = textEmail.getText().toString();
-        int height = Integer.parseInt(textHeight.getText().toString());
-        double weight = Double.parseDouble(textWeight.getText().toString());
+        String heightString = textHeight.getText().toString();
+        String weightString = textWeight.getText().toString();
+        if (!username.trim().isEmpty() && !password.trim().isEmpty() && !email.trim().isEmpty()
+                && !heightString.trim().isEmpty() && !weightString.trim().isEmpty()){
+            int height = Integer.parseInt(heightString);
+            double weight = Double.parseDouble(weightString);
 
-        UserDTO userDTO = new UserDTO(username, password, email, height, weight);
-        UserRepositoryImpl userRepository = new UserRepositoryImpl(this);
-        userRepository.create(userDTO, new TaskCompleted<Boolean>() {
-            @Override
-            public void onTaskCompleted(Boolean s) {
-                if (s == true){
-                    finish();
+            UserDTO userDTO = new UserDTO(username, password, email, height, weight);
+            UserRepositoryImpl userRepository = new UserRepositoryImpl(this);
+            userRepository.create(userDTO, new TaskCompleted<Boolean>() {
+                @Override
+                public void onTaskCompleted(Boolean s) {
+                    if (s == true){
+                        finish();
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            Toast.makeText(this, "Campos vacíos", Toast.LENGTH_SHORT).show();
+        }
     }
+
 }

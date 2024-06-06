@@ -33,14 +33,12 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setMenu(getString(title), menu);
 
         username = view.findViewById(R.id.username);
         userEmail = view.findViewById(R.id.userEmail);
@@ -49,6 +47,7 @@ public class ProfileFragment extends BaseFragment {
         btnLogout = view.findViewById(R.id.btnLogout);
         sessionManager = new SessionManager(requireContext());
 
+        setMenu(getString(title), menu);
         loadData();
 
         btnLogout.setOnClickListener(view1 -> {

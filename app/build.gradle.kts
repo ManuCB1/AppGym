@@ -39,16 +39,11 @@ dependencies {
     implementation ("androidx.navigation:navigation-ui-ktx:2.4.0")
 //    Implementación para Volley
     implementation ("com.android.volley:volley:1.2.1")
-//    Implementación para Chat Gemini
-    implementation("com.google.ai.client.generativeai:generativeai:0.6.0")
-    // Required for one-shot operations (to use `ListenableFuture` from Guava Android)
-    implementation("com.google.guava:guava:31.0.1-android")
-    // Required for streaming operations (to use `Publisher` from Reactive Streams)
-    implementation("org.reactivestreams:reactive-streams:1.0.4")
 //    Implementación API
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.moshi:moshi:1.12.0")
+    implementation("com.google.ai.client.generativeai:generativeai:0.6.0")
 //    Cargar imagenes URL
     implementation ("com.squareup.picasso:picasso:2.71828")
 //    API Youtube

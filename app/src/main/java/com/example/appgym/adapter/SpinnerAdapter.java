@@ -29,7 +29,6 @@ public class SpinnerAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        View v = LayoutInflater.from(ctx).inflate(miLayout, parent, false);
         View v = LayoutInflater.from(ctx).inflate(R.layout.spinner_item, parent, false);
 
         TextView textSpinner = v.findViewById(R.id.textSpinner);
